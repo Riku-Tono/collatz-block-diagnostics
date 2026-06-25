@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>7. Appendix — Collatz finite-block diagnostics</title>
+<link rel="stylesheet" href="style.css">
+<script>
+  MathJax = { tex: { inlineMath: [['\\(','\\)']], displayMath: [['\\[','\\]']] } };
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.min.js" id="MathJax-script" async></script>
+</head>
+<body>
+<main class="wrap">
+  <nav class="site-nav" aria-label="Site">
+    <a href="../index.html">Home</a>
+    <a href="01_introduction.html">Introduction</a>
+    <a href="02_background.html">Background</a>
+    <a href="03_method.html">Method</a>
+    <a href="04_results.html">Results</a>
+    <a href="05_negative_results.html">Negative Results</a>
+    <a href="06_discussion.html">Discussion</a>
+    <a href="07_appendix.html" aria-current="page">Appendix</a>
+    <a href="https://github.com/USER/REPO">GitHub</a>
+  </nav>
+<div class="chapter-mark"><span><span class="num">07</span> &nbsp;Appendix</span><span>Collatz finite-block diagnostics</span></div>
+
+  <h1>Appendix: definitions, constants, reproduction</h1>
+
+  <h2>A. Constants</h2>
+
+  <table>
+    <caption>Table A.1 — Default constants (from <code>collatz_block_anomaly_score.py</code>).</caption>
+    <thead><tr><th>Name</th><th>Value</th><th>Role</th></tr></thead>
+    <tbody>
+      <tr><td><code>POWERS</code></td><td class="num">24, 25, 26, 27, 28</td><td>residue exponents enumerated</td></tr>
+      <tr><td><code>HS</code></td><td class="num">2, 3, 4, 5, 6</td><td>layer offsets</td></tr>
+      <tr><td><code>IID_SAMPLES_PER_H</code></td><td class="num">160000</td><td>iid words per layer</td></tr>
+      <tr><td><code>ACTUAL_SAMPLE_PER_PH</code></td><td class="num">20000</td><td>actual words per (power, h)</td></tr>
+      <tr><td><code>SEED</code></td><td class="num">20260625</td><td>RNG seed</td></tr>
+      <tr><td><code>SMOOTH_ALPHA</code></td><td class="num">0.5</td><td>add-α smoothing (anomaly test)</td></tr>
+      <tr><td><code>SMOOTH_MIX</code> / λ</td><td class="num">0.02</td><td>uniform-mixture smoothing (renorm/projection)</td></tr>
+      <tr><td><code>MIN_STATE_IID_MASS</code></td><td class="num">1e-7</td><td>stability threshold for keeping a state</td></tr>
+      <tr><td>bridge \(z_{25}\) cuts</td><td class="num">q_low −1.5, q_high −0.25</td><td>tertile cuts for bridge cluster</td></tr>
+      <tr><td>regularization sweep</td><td class="num">0.0, 0.5, 0.75, 0.9</td><td>Test 4 (maxent)</td></tr>
+      <tr><td>α sweep</td><td class="num">0.0, 0.25, 0.5, 0.75, 1.0</td><td>Test 3 (reweighting)</td></tr>
+    </tbody>
+  </table>
+
+  <h2>B. State coordinates</h2>
+
+  <p><strong>x_K window.</strong> \(x_K = K_\tau - (\text{power} - h)\), bucketed as
+  <code>exhaustion_0_31</code> \([0,32)\), <code>deep_32_63</code> \([32,64)\),
+  <code>tail_64_95</code> \([64,96)\); words outside \([0,96)\) are dropped.</p>
+
+  <p><strong>bridge cluster.</strong> From the reparameterized log-magnitude path,
+  \(z_{25} = x(0.25) - 0.25\,x(1)\). With cuts \(q_{\text{low}}=-1.5\),
+  \(q_{\text{high}}=-0.25\): \(z_{25} \le q_{\text{low}} \Rightarrow\)
+  <code>late_growth</code>; \(z_{25} \ge q_{\text{high}} \Rightarrow\)
+  <code>early_growth</code>; otherwise <code>balanced</code>. The companion features
+  \(z_{50}, z_{75}\) and the final drift enter the regression baseline.</p>
+
+  <p><strong>parity.</strong> <code>even</code> if <code>power</code> is even, else
+  <code>odd</code>.</p>
+
+  <h2>C. Block score</h2>
+
+  <p>Train-split smoothed log-ratio per \((L,\text{state},u\text{-bin},\text{block})\),
+  summed over a test word's sliding windows. Position bins \(u\) are deciles of
+  \((i+1)/\tau\). A state is scored at length \(L\) only if it is stable at that
+  length.</p>
+
+  <pre><code>score = 0
+for i in range(tau - L + 1):
+    block = ",".join(k_cat(k) for k in word[i:i+L])
+    score += lookup[(L, state, u_bin(i, tau), block)]   # log2(actual_p / iid_p)</code></pre>
+
+  <h2>D. File manifest</h2>
+
+  <table>
+    <caption>Table D.1 — Artifacts and their role.</caption>
+    <thead><tr><th>File</th><th>Role</th></tr></thead>
+    <tbody>
+      <tr><td><code>collatz_block_anomaly_score.py</code></td><td>Test 1 + shared definitions</td></tr>
+      <tr><td><code>collatz_block_length_renormalization.py</code></td><td>Test 2</td></tr>
+      <tr><td><code>collatz_block_maxent_projection.py</code></td><td>Test 4</td></tr>
+      <tr><td><code>collatz_block_anomaly_report.md</code></td><td>Test 1 report (class B)</td></tr>
+      <tr><td><code>collatz_block_length_renormalization_report.md</code></td><td>Test 2 report (class B)</td></tr>
+      <tr><td><code>collatz_block_reweighting_report.md</code></td><td>Test 3 report (class C)</td></tr>
+      <tr><td><code>collatz_block_maxent_projection_report.md</code></td><td>Test 4 report (class C)</td></tr>
+      <tr><td><code>maxent_vs_raw_rmse.svg</code></td><td>Figure 1</td></tr>
+      <tr><td><code>residuals_vs_regularization.svg</code></td><td>Figure 2</td></tr>
+      <tr><td><code>focus_state_maxent_fit.svg</code></td><td>Figure 3</td></tr>
+    </tbody>
+  </table>
+
+  <h2>E. Reproduction</h2>
+
+  <p>Python 3.10+ with <code>numpy</code>. The scripts require an upstream
+  <code>collatz_escape_word_deficit.py</code> and binary status caches
+  <code>odd_only_status_p{24..28}.bin</code>; edit <code>SRC</code> and
+  <code>CACHE_DIRS</code> at the top of <code>collatz_block_anomaly_score.py</code>
+  to local paths, then run the three scripts in order. Randomness is seeded and the
+  train/test split is by deterministic sample-index parity; reruns reproduce up to
+  floating-point summation order.</p>
+
+  <div class="stance warn">
+    <span class="tag">Reading the classifications</span>
+    The <code>A/B/C/D</code> verdicts are coarse self-diagnostics with author-chosen
+    thresholds (§5.4), reported verbatim. They are not external benchmarks, and the
+    sampled AUC/RMSE numbers carry unquantified sampling error.
+  </div>
+
+  <nav class="chap-nav">
+    <a href="06_discussion.html">&larr; 6. Discussion</a>
+    <span class="spacer"></span>
+    <a href="01_introduction.html">Back to start &rarr;</a>
+  </nav>
+  <nav class="footer-nav" aria-label="Site">
+    <a href="../index.html">Home</a>
+    <a href="01_introduction.html">Introduction</a>
+    <a href="02_background.html">Background</a>
+    <a href="03_method.html">Method</a>
+    <a href="04_results.html">Results</a>
+    <a href="05_negative_results.html">Negative Results</a>
+    <a href="06_discussion.html">Discussion</a>
+    <a href="07_appendix.html" aria-current="page">Appendix</a>
+    <a href="https://github.com/USER/REPO">GitHub</a>
+  </nav>
+</main>
+</body>
+</html>

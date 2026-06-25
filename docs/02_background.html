@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>2. Background — Collatz finite-block diagnostics</title>
+<link rel="stylesheet" href="style.css">
+<script>
+  MathJax = { tex: { inlineMath: [['\\(','\\)']], displayMath: [['\\[','\\]']] } };
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.min.js" id="MathJax-script" async></script>
+</head>
+<body>
+<main class="wrap">
+  <nav class="site-nav" aria-label="Site">
+    <a href="../index.html">Home</a>
+    <a href="01_introduction.html">Introduction</a>
+    <a href="02_background.html" aria-current="page">Background</a>
+    <a href="03_method.html">Method</a>
+    <a href="04_results.html">Results</a>
+    <a href="05_negative_results.html">Negative Results</a>
+    <a href="06_discussion.html">Discussion</a>
+    <a href="07_appendix.html">Appendix</a>
+    <a href="https://github.com/USER/REPO">GitHub</a>
+  </nav>
+<div class="chapter-mark"><span><span class="num">02</span> &nbsp;Background</span><span>Collatz finite-block diagnostics</span></div>
+
+  <h1>Background and notation</h1>
+
+  <p class="lead">This section fixes the objects we compare: escape words, the iid
+  2-adic reference, and the coordinates we condition on. Nothing here is novel; it is
+  recorded so the measurements in §4 are unambiguous.</p>
+
+  <h2>2.1 Escape words</h2>
+
+  <p>Work with the accelerated odd-to-odd map. For an odd \(n\), one step removes the
+  factor of two from \(3n+1\):</p>
+
+  \[ n \;\longmapsto\; \frac{3n+1}{2^{\,k}}, \qquad k = v_2(3n+1) \ge 1 . \]
+
+  <p>Following a trajectory until it <span class="term">escapes</span> its layer
+  produces a finite sequence of valuations</p>
+
+  \[ \mathbf{k} = (k_1, k_2, \dots, k_\tau), \qquad k_i \ge 1, \]
+
+  <p>which we call the <span class="term">escape word</span>; \(\tau\) is its length.
+  The cumulative valuation is \(K_\tau = \sum_i k_i\). In log-magnitude terms each
+  step contributes \(\log_2 3 - k_i\), so the partial sums of \(\log_2 3 - k_i\)
+  trace the trajectory's descent; this is the path we summarize by shape features
+  below.</p>
+
+  <h2>2.2 The two measures being compared</h2>
+
+  <p>We compare two distributions over escape words inside each conditioning cell:</p>
+
+  <ul>
+    <li><strong>actual</strong> — words of finite integers, enumerated from
+    exhaustive residue-status caches over odd residues up to \(2^{\text{power}}\),
+    for <code>power</code> in \(\{24,\dots,28\}\). Trajectories flagged
+    <code>ESCAPE</code> are traced and weighted by their layer mass.</li>
+    <li><strong>iid</strong> — words sampled from an iid 2-adic reference: valuations
+    drawn from a tilted geometric-like law (<code>tilted_k</code>) independently at
+    each step, with importance weights that match the layer geometry. The reference
+    is the null against which "actual" is measured.</li>
+  </ul>
+
+  <div class="stance">
+    <span class="tag">Framing</span>
+    Throughout, the object of study is the <em>discrepancy</em> between actual and
+    iid <em>inside a state</em>, not either measure on its own. Every reported
+    quantity (AUC, RMSE, survival, residual) is a comparison.
+  </div>
+
+  <h2>2.3 Valuation categories and blocks</h2>
+
+  <p>Raw valuations are bucketed into three categories,</p>
+
+  \[ \text{k\_cat}(k) = \begin{cases} \texttt{"1"} & k = 1 \\ \texttt{"2"} & k = 2 \\ \texttt{"3+"} & k \ge 3, \end{cases} \]
+
+  <p>and a <span class="term">block</span> of length \(L\) is a window of \(L\)
+  consecutive categories. There are \(3^L\) possible blocks; we use
+  \(L \in \{3,4,5,6\}\). The coarse bucketing keeps the per-block support small enough
+  to estimate from samples while still resolving the short-range structure that the
+  one-step view misses.</p>
+
+  <h2>2.4 Why a finite-block view at all</h2>
+
+  <p>Prior steps in this program established that the discrepancy is not captured by
+  any single low-order summary: not by \(K_\tau\), not by \(\tau\), not by mean
+  valuation or cumulative drift, and that one-step transitions are close to iid. In
+  the regression baseline used here those covariates together separate actual from
+  iid only marginally (AUC \(\approx 0.50\); see §4). The finite-block tests are the
+  natural next question: if the deviation is not one-step and not in these scalars,
+  does it live in <em>short multi-step patterns</em>, and if so can those patterns be
+  turned into a generator?</p>
+
+  <p>The remainder of the paper answers: the deviation does show up in short blocks
+  (diagnostically), but turning the blocks into a generator fails in the two ways we
+  tried.</p>
+
+  <nav class="chap-nav">
+    <a href="01_introduction.html">&larr; 1. Introduction</a>
+    <span class="spacer"></span>
+    <a href="03_method.html">3. Method &rarr;</a>
+  </nav>
+  <nav class="footer-nav" aria-label="Site">
+    <a href="../index.html">Home</a>
+    <a href="01_introduction.html">Introduction</a>
+    <a href="02_background.html" aria-current="page">Background</a>
+    <a href="03_method.html">Method</a>
+    <a href="04_results.html">Results</a>
+    <a href="05_negative_results.html">Negative Results</a>
+    <a href="06_discussion.html">Discussion</a>
+    <a href="07_appendix.html">Appendix</a>
+    <a href="https://github.com/USER/REPO">GitHub</a>
+  </nav>
+</main>
+</body>
+</html>

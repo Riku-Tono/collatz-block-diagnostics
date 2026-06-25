@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>6. Discussion — Collatz finite-block diagnostics</title>
+<link rel="stylesheet" href="style.css">
+<script>
+  MathJax = { tex: { inlineMath: [['\\(','\\)']], displayMath: [['\\[','\\]']] } };
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.min.js" id="MathJax-script" async></script>
+</head>
+<body>
+<main class="wrap">
+  <nav class="site-nav" aria-label="Site">
+    <a href="../index.html">Home</a>
+    <a href="01_introduction.html">Introduction</a>
+    <a href="02_background.html">Background</a>
+    <a href="03_method.html">Method</a>
+    <a href="04_results.html">Results</a>
+    <a href="05_negative_results.html">Negative Results</a>
+    <a href="06_discussion.html" aria-current="page">Discussion</a>
+    <a href="07_appendix.html">Appendix</a>
+    <a href="https://github.com/USER/REPO">GitHub</a>
+  </nav>
+<div class="chapter-mark"><span><span class="num">06</span> &nbsp;Discussion</span><span>Collatz finite-block diagnostics</span></div>
+
+  <h1>Discussion: candidate framings, held as candidates</h1>
+
+  <p class="lead">The measurements constrain what the discrepancy is <em>not</em>
+  (§5) far more tightly than what it is. This section lists frameworks that are
+  <em>consistent with</em> the observations, strictly as candidates. We do not
+  identify a mechanism, and nothing below should be read as a claim that the
+  discrepancy "is" any of these objects.</p>
+
+  <div class="stance warn">
+    <span class="tag">Standing caveat for this section</span>
+    Every framework below is offered as a lens, not a conclusion. The present work
+    does not establish that any of them generates the finite-integer word measure.
+    Several are mutually compatible and would require very different evidence to tell
+    apart — evidence this study does not provide.
+  </div>
+
+  <h2>6.1 What a candidate has to fit</h2>
+
+  <p>Any honest candidate must be consistent with the full pattern, not a convenient
+  slice of it: local one-step statistics close to iid; a short-block signal that
+  grows with block length; failure of finite-block reweighting (over-counting) and of
+  finite-block maximum entropy (marginal-matching) to generate the state
+  distribution; and a residual indexed by bridge shape and parity that survives all
+  of the above. A framework that explains only the diagnostic growth, or only the
+  generative failure, is not yet a candidate for the whole.</p>
+
+  <h2>6.2 Candidate classes</h2>
+
+  <p>The observations are consistent with several classes of models, including the
+  following. For each we note what it would speak to and where it could be over-read.</p>
+
+  <h3>Coarse-graining / function of a Markov chain</h3>
+  <p>That the word process is a (possibly non-lumpable) coarse-graining of a finer
+  deterministic dynamics is consistent with low-order statistics agreeing while
+  higher-order ones diverge. <span class="small">Over-read risk: "non-lumpable" is
+  almost always true of a coarse-graining and by itself explains nothing specific.</span></p>
+
+  <h3>Long-range / non-finite-range dependence</h3>
+  <p>The data are consistent with dependence that is not finite-range and not
+  finite-memory: near-iid locally, divergent globally. This is the most defensible
+  framing because it restates the negative results directly.
+  <span class="small">Over-read risk: it is a description, not a mechanism.</span></p>
+
+  <h3>Conditioned process / Doob \(h\)-transform; bridge / meander / excursion</h3>
+  <p>The bridge-shape conditioning and the language of paths kept on one side of a
+  boundary are reminiscent of an \(h\)-transform of a random walk. <span class="small">
+  Over-read risk: writing down the state space of \(h\) would commit to a mechanism;
+  the bridge/parity residual is evidence that an iid-internal \(h\) does not close the
+  gap, so this remains analogy, not identification.</span></p>
+
+  <h3>Large-deviation conditioning</h3>
+  <p>That the discrepancy concentrates in the deep tail is the kind of behaviour one
+  sees when conditioning on a rare event. <span class="small">Over-read risk:
+  large-deviation statements are exponential-order and would discard the
+  sub-exponential, mid-scale structure (the block growth) that this study actually
+  measures.</span></p>
+
+  <h3>Gibbs / exponential-family descriptions</h3>
+  <p>Test 4 is itself a finite-range Gibbs / exponential-family fit, and it does not
+  win; a long-range Gibbs description is the natural place that leaves open.
+  <span class="small">Over-read risk: being Gibbsian at all is unverified — pushforwards
+  of nice measures are routinely non-Gibbs — so "if Gibbs, then long-range" is a
+  double conditional.</span></p>
+
+  <h3>Symbolic dynamics beyond finite type</h3>
+  <p>The local-iid / global-failure pattern is inconsistent with a shift of finite
+  type (local forbidden words), pointing, if anything, to a non-SFT, possibly
+  non-sofic constraint. <span class="small">Over-read risk: a purely symbolic framing
+  drops the magnitude (Archimedean size) coordinate, which is exactly where the
+  cutoff/boundary residual lives.</span></p>
+
+  <h3>Hidden-state / hidden semi-Markov processes</h3>
+  <p>A latent state that is slowly varying (so emissions look near-iid) is consistent
+  with the picture, and a non-geometric sojourn would be a hidden semi-Markov variant.
+  <span class="small">Over-read risk: the latent's cardinality and the sojourn law are
+  entirely unmeasured here; adopting "semi-Markov" would assume the very structure that
+  would need to be tested.</span></p>
+
+  <h3>Exchangeability breaking with order dependence</h3>
+  <p>The departure from iid is consistent with broken exchangeability — but of a kind
+  where <em>order</em> matters, since bridge shape (a path-ordered feature) organizes
+  the residual. <span class="small">Over-read risk: this rules out a plain exchangeable
+  mixture but still names a family, not a member.</span></p>
+
+  <h2>6.3 A note against premature unification</h2>
+
+  <p>The results have a hierarchical shape — quiet locally, emerging in short blocks,
+  failing to generate, leaving a global residual. Most large frameworks above are
+  built around a single reference measure and a single leading correction; folding the
+  observations into any one of them risks flattening that hierarchy into one effect.
+  We therefore keep the layers explicit and the reference (iid 2-adic) and the
+  discrepancy separate, rather than declaring the discrepancy the image of one
+  operator.</p>
+
+  <h2>6.4 Limitations</h2>
+
+  <ul>
+    <li>All diagnostics are split-sample and sampled; the strongest focus-state effects
+    sit in deciles with little or zero iid mass.</li>
+    <li>The maximum-entropy projection is approximate (two iterations, capped
+    evaluation), not an exact IPF over all words; a negative result from it is
+    suggestive, not final.</li>
+    <li>Block categories are coarse (\(1/2/3{+}\)); a finer alphabet could change the
+    block-length trend.</li>
+    <li>Sampling error on the AUC/RMSE figures is not formally quantified; small
+    differences should be read as suggestive.</li>
+  </ul>
+
+  <div class="stance">
+    <span class="tag">Net statement</span>
+    The observations are consistent with several of the classes above and identify
+    none of them. The reliable content of this paper is the elimination ladder of §5
+    and the persistent bridge/parity residual — not a model.
+  </div>
+
+  <nav class="chap-nav">
+    <a href="05_negative_results.html">&larr; 5. Negative Results</a>
+    <span class="spacer"></span>
+    <a href="07_appendix.html">7. Appendix &rarr;</a>
+  </nav>
+  <nav class="footer-nav" aria-label="Site">
+    <a href="../index.html">Home</a>
+    <a href="01_introduction.html">Introduction</a>
+    <a href="02_background.html">Background</a>
+    <a href="03_method.html">Method</a>
+    <a href="04_results.html">Results</a>
+    <a href="05_negative_results.html">Negative Results</a>
+    <a href="06_discussion.html" aria-current="page">Discussion</a>
+    <a href="07_appendix.html">Appendix</a>
+    <a href="https://github.com/USER/REPO">GitHub</a>
+  </nav>
+</main>
+</body>
+</html>

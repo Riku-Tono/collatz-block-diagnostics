@@ -1,0 +1,205 @@
+/* Collatz finite-block diagnostic study — shared paper stylesheet.
+   Deliberately restrained: academic register, hairline rules, one signature
+   element (the epistemic-stance callouts) that encodes the paper's thesis. */
+
+:root {
+  --ink: #1a1a1a;
+  --muted: #555;
+  --rule: #d8d4cc;
+  --rule-strong: #1a1a1a;
+  --bg: #fbfaf7;
+  --panel: #f3f0e9;
+  --accent: #5b6b8c;      /* "consistent with" — neutral candidate */
+  --accent-warn: #9a6a3a; /* "does not establish" — restraint */
+  --mono: "SFMono-Regular", "JetBrains Mono", Consolas, "Liberation Mono", monospace;
+  --serif: "Iowan Old Style", "Palatino Linotype", Palatino, "Book Antiqua", Georgia, serif;
+  --sans: "Inter", -apple-system, "Segoe UI", Helvetica, Arial, sans-serif;
+}
+
+* { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--serif);
+  font-size: 18px;
+  line-height: 1.62;
+}
+
+.wrap {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 4rem 1.5rem 6rem;
+}
+
+
+/* Site-wide navigation */
+.site-nav,
+.footer-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem 1rem;
+  align-items: center;
+  font-family: var(--sans);
+  font-size: 0.78rem;
+  line-height: 1.4;
+}
+.site-nav {
+  margin-bottom: 1.4rem;
+  padding-bottom: 0.85rem;
+  border-bottom: 1px solid var(--rule);
+}
+.footer-nav {
+  margin-top: 2rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--rule);
+}
+.site-nav a,
+.footer-nav a {
+  border: none;
+  color: var(--muted);
+}
+.site-nav a:hover,
+.footer-nav a:hover,
+.site-nav a[aria-current="page"],
+.footer-nav a[aria-current="page"] {
+  color: var(--ink);
+}
+.site-nav a[aria-current="page"],
+.footer-nav a[aria-current="page"] {
+  font-weight: 650;
+}
+
+/* Running header: chapter number + short series mark */
+.chapter-mark {
+  font-family: var(--sans);
+  font-size: 0.72rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--muted);
+  border-bottom: 1px solid var(--rule);
+  padding-bottom: 0.75rem;
+  margin-bottom: 2.5rem;
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+}
+.chapter-mark .num { color: var(--ink); font-weight: 600; }
+
+h1 {
+  font-family: var(--sans);
+  font-weight: 650;
+  font-size: 2rem;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+  margin: 0 0 1.4rem;
+}
+h2 {
+  font-family: var(--sans);
+  font-weight: 600;
+  font-size: 1.3rem;
+  margin: 2.8rem 0 0.9rem;
+  letter-spacing: -0.005em;
+}
+h3 {
+  font-family: var(--sans);
+  font-weight: 600;
+  font-size: 1.05rem;
+  margin: 2rem 0 0.6rem;
+}
+
+p { margin: 0 0 1.1rem; }
+.lead { font-size: 1.12rem; color: #2c2c2c; }
+
+a { color: var(--accent); text-decoration: none; border-bottom: 1px solid var(--rule); }
+a:hover { border-color: var(--accent); }
+
+code { font-family: var(--mono); font-size: 0.86em; background: var(--panel); padding: 0.08em 0.35em; border-radius: 2px; }
+pre { font-family: var(--mono); font-size: 0.82rem; line-height: 1.5; background: var(--panel); border: 1px solid var(--rule); border-radius: 3px; padding: 1rem 1.1rem; overflow-x: auto; }
+pre code { background: none; padding: 0; }
+
+ul, ol { margin: 0 0 1.2rem; padding-left: 1.3rem; }
+li { margin: 0.35rem 0; }
+
+/* Tables: hairline, data-forward */
+table { border-collapse: collapse; width: 100%; margin: 1.4rem 0; font-family: var(--sans); font-size: 0.9rem; }
+caption { caption-side: top; text-align: left; font-family: var(--sans); font-size: 0.8rem; color: var(--muted); margin-bottom: 0.5rem; letter-spacing: 0.02em; }
+th, td { padding: 0.5rem 0.7rem; text-align: right; border-bottom: 1px solid var(--rule); }
+th:first-child, td:first-child { text-align: left; }
+thead th { border-bottom: 2px solid var(--rule-strong); font-weight: 600; }
+tbody tr:last-child td { border-bottom: 1px solid var(--rule-strong); }
+td.num, th.num { font-variant-numeric: tabular-nums; }
+
+/* Figures */
+figure { margin: 2rem 0; }
+figure img { width: 100%; height: auto; border: 1px solid var(--rule); border-radius: 3px; background: #fff; }
+figcaption { font-family: var(--sans); font-size: 0.82rem; color: var(--muted); margin-top: 0.6rem; }
+figcaption .fignum { color: var(--ink); font-weight: 600; }
+
+/* Signature element: epistemic-stance callouts.
+   The whole paper's thesis is "what we will and will not claim", so the
+   register markers get the one piece of visual emphasis. */
+.stance {
+  font-family: var(--sans);
+  font-size: 0.92rem;
+  line-height: 1.5;
+  padding: 0.9rem 1.1rem 0.9rem 1.3rem;
+  margin: 1.8rem 0;
+  background: #fff;
+  border: 1px solid var(--rule);
+  border-left: 3px solid var(--accent);
+  border-radius: 2px;
+}
+.stance .tag {
+  display: block;
+  font-size: 0.68rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 0.4rem;
+  font-weight: 650;
+}
+.stance.warn { border-left-color: var(--accent-warn); }
+.stance.warn .tag { color: var(--accent-warn); }
+
+/* Classification chip */
+.chip {
+  display: inline-block;
+  font-family: var(--sans);
+  font-size: 0.74rem;
+  font-weight: 650;
+  letter-spacing: 0.04em;
+  padding: 0.12rem 0.5rem;
+  border-radius: 2px;
+  border: 1px solid var(--rule-strong);
+}
+.chip.b { background: #eef1f6; }
+.chip.c { background: #f6efe6; }
+
+/* Footer nav between chapters */
+.chap-nav {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 4rem;
+  padding-top: 1.2rem;
+  border-top: 1px solid var(--rule);
+  font-family: var(--sans);
+  font-size: 0.85rem;
+}
+.chap-nav a { border: none; }
+.chap-nav .spacer { flex: 1; }
+
+hr { border: none; border-top: 1px solid var(--rule); margin: 2.5rem 0; }
+
+.small { font-size: 0.85rem; color: var(--muted); }
+.term { font-style: italic; }
+
+@media (max-width: 600px) {
+  body { font-size: 17px; }
+  .wrap { padding: 2.5rem 1.1rem 4rem; }
+  h1 { font-size: 1.6rem; }
+}

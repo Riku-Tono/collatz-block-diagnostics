@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>4. Results — Collatz finite-block diagnostics</title>
+<link rel="stylesheet" href="style.css">
+<script>
+  MathJax = { tex: { inlineMath: [['\\(','\\)']], displayMath: [['\\[','\\]']] } };
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.min.js" id="MathJax-script" async></script>
+</head>
+<body>
+<main class="wrap">
+  <nav class="site-nav" aria-label="Site">
+    <a href="../index.html">Home</a>
+    <a href="01_introduction.html">Introduction</a>
+    <a href="02_background.html">Background</a>
+    <a href="03_method.html">Method</a>
+    <a href="04_results.html" aria-current="page">Results</a>
+    <a href="05_negative_results.html">Negative Results</a>
+    <a href="06_discussion.html">Discussion</a>
+    <a href="07_appendix.html">Appendix</a>
+    <a href="https://github.com/USER/REPO">GitHub</a>
+  </nav>
+<div class="chapter-mark"><span><span class="num">04</span> &nbsp;Results</span><span>Collatz finite-block diagnostics</span></div>
+
+  <h1>Results, by test</h1>
+
+  <p class="lead">Each test is reported in its own section, with the numbers taken
+  verbatim from the corresponding report. Diagnostic results come first (Tests 1–2),
+  then the generative attempts (Tests 3–4). The consolidated reading is deferred to
+  §5.</p>
+
+  <h2>4.1 Test 1 — block anomaly score (B3/B4) <span class="chip b">class B</span></h2>
+
+  <p>In the focus state <code>late_growth | tail_64_95 | even</code>, the \(B_4\)
+  score's actual median (\(-0.047\)) sits above the iid median (\(-0.060\)), and the
+  weighted AUC separating high-scoring actual words from iid is \(0.719\). Within that
+  state the lowest \(B_4\)-score decile has survival ratio \(S = 0.035\) and the
+  highest decile \(S = 1.806\) — a clear monotone direction, on a thin cell.</p>
+
+  <p>Against the full logistic baseline, the block score adds a small but real amount
+  of separation, and crucially does <em>not</em> absorb the structural covariates:</p>
+
+  <table>
+    <caption>Table 4.1 — Test 1 regression (weighted AUC and selected coefficients). Baseline = \(x_K\), parity, bridge cluster, path-shape \(z\).</caption>
+    <thead>
+      <tr><th>model</th><th class="num">weighted AUC</th><th class="num">Δ vs base</th><th class="num">B4 coef</th><th class="num">bridge |coef|</th><th class="num">parity coef</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>x_K + parity + bridge + z</td><td class="num">0.5023</td><td class="num">0.0000</td><td class="num">0.0000</td><td class="num">1.1312</td><td class="num">0.3682</td></tr>
+      <tr><td>+ B4</td><td class="num">0.5260</td><td class="num">0.0236</td><td class="num">0.2330</td><td class="num">1.1151</td><td class="num">0.4268</td></tr>
+      <tr><td>+ B3 + B4</td><td class="num">0.5246</td><td class="num">0.0223</td><td class="num">0.1695</td><td class="num">1.1132</td><td class="num">0.4423</td></tr>
+    </tbody>
+  </table>
+
+  <p>Adding \(B_4\) moves AUC by \(0.0236\). The bridge coefficient falls by only
+  \(0.0162\); the parity coefficient does not fall at all (it rises, a reduction of
+  \(-0.0586\)). The report's self-verdict is <strong>B — "B4 score helps but
+  bridge/parity remain strong"</strong>, with the explicit caveat that this is a
+  split-sample, sampled diagnostic, not an exact aggregation proof.</p>
+
+  <h2>4.2 Test 2 — block-length renormalization (L = 3…6) <span class="chip b">class B</span></h2>
+
+  <p>The discriminative signal increases monotonically with block length, by both the
+  marginal-score AUC and the \(+\)score logistic AUC, while the logistic base AUC
+  stays at chance (\(0.5025\)):</p>
+
+  <table>
+    <caption>Table 4.2 — Test 2 AUC by block length \(L\).</caption>
+    <thead>
+      <tr><th>L</th><th class="num">marginal score AUC</th><th class="num">logistic base AUC</th><th class="num">logistic + score AUC</th><th class="num">Δ</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>3</td><td class="num">0.5611</td><td class="num">0.5025</td><td class="num">0.5363</td><td class="num">0.0337</td></tr>
+      <tr><td>4</td><td class="num">0.5768</td><td class="num">0.5025</td><td class="num">0.5436</td><td class="num">0.0411</td></tr>
+      <tr><td>5</td><td class="num">0.5966</td><td class="num">0.5025</td><td class="num">0.5536</td><td class="num">0.0511</td></tr>
+      <tr><td>6</td><td class="num">0.6198</td><td class="num">0.5025</td><td class="num">0.5643</td><td class="num">0.0618</td></tr>
+    </tbody>
+  </table>
+
+  <p>The best \(+\)score logistic AUC is \(0.5643\) at \(L=6\); the gain from \(L=3\)
+  to \(L=6\) is \(0.0280\). But the residual does not close: at \(L=6\) the bridge
+  absolute residual is \(1.1011\) and the parity residual is \(0.3749\). In the focus
+  state at \(L=6\), the lowest score decile has \(S = 0.117\), the highest
+  finite-ratio decile \(S = 38.091\), and the top decile has <em>zero</em> iid mass —
+  the strongest-looking effect is also the most sparsely sampled.</p>
+
+  <p>The report's self-verdict is <strong>B — "AUC grows but residual remains"</strong>:
+  longer blocks discriminate better but do not remove the bridge/parity structure.</p>
+
+  <h2>4.3 Test 3 — finite-block reweighting <span class="chip c">class C</span></h2>
+
+  <p>Reweighting iid words by \(2^{\alpha S_L}\) is the first generative attempt. The
+  best full-state fit is barely-damped <em>short</em> blocks — \(L=3\), \(\alpha=0.25\),
+  RMSE \(0.000440978\), JS \(0.000921815\). Longer or stronger reweighting is worse,
+  not better: at \(L=6\) the best choice is \(\alpha = 0.0\) (no reweighting at all),
+  RMSE \(0.000642649\).</p>
+
+  <p>The focus state shows the overcorrection directly. Its best reweighting (\(L=6\),
+  \(\alpha=0.5\)) still <em>under</em>-predicts the mass — actual \(0.00092052\) vs
+  predicted \(0.00029821\) — and pushing to \(\alpha=1\) collapses the modelled focus
+  survival to \(0.00416667\) against an actual survival of \(0.472461\). At the global
+  best fit the bridge RMSE is \(0.000427051\) and the parity RMSE \(0.00262763\).</p>
+
+  <p>The report's self-verdict is <strong>C — "reweighting overcorrects or is not
+  generative"</strong>: the small improvement is entirely from damped short-block
+  reweighting; longer raw reweighting is over-sharp — useful diagnostically, weak as a
+  generator.</p>
+
+  <h2>4.4 Test 4 — maximum-entropy block projection <span class="chip c">class C</span></h2>
+
+  <p>The second generative attempt replaces ad-hoc reweighting with an approximate
+  regularized IPF that matches block marginals. It does not beat the simpler baseline:
+  the best maximum-entropy fit (\(L=3\), regularization \(0.75\)) has RMSE
+  \(0.000493147\) and JS \(0.000868073\), <em>worse</em> than the best raw/damped
+  reweighting RMSE of \(0.000440978\).</p>
+
+  <figure>
+    <img src="figures/maxent_vs_raw_rmse.svg" alt="Bar chart comparing best raw/damped RMSE 0.000440978 with best maxent RMSE 0.000493147.">
+    <figcaption><span class="fignum">Figure 1.</span> Best-fit state-mass RMSE: the
+    maximum-entropy projection (right) does not improve on the best raw/damped
+    reweighting (left). Lower is better.</figcaption>
+  </figure>
+
+  <p>Regularization does reduce the parity residual for the longer blocks — at
+  regularization \(0\) the \(L=5\) and \(L=6\) parity residuals start high and fall
+  toward the \(L=3/L=4\) level as regularization increases — but this is the
+  projection being tamed toward the damped baseline, not a new structure being
+  captured.</p>
+
+  <figure>
+    <img src="figures/residuals_vs_regularization.svg" alt="Line chart of parity residual RMSE versus regularization for L=3,4,5,6; L=5 and L=6 start high and decrease with regularization.">
+    <figcaption><span class="fignum">Figure 2.</span> Parity residual RMSE vs.
+    regularization, by block length. Heavier regularization pulls the \(L=5,6\)
+    projections back toward the low-residual region already occupied by \(L=3,4\).</figcaption>
+  </figure>
+
+  <p>On the focus state the projection's best survival is \(0.444001\) (\(L=5\),
+  regularization \(0.9\)) against an actual survival of \(0.472461\) — close in this
+  one cell, but obtained at heavy regularization and not accompanied by a better
+  global fit.</p>
+
+  <figure>
+    <img src="figures/focus_state_maxent_fit.svg" alt="Line chart of focus-state predicted survival versus regularization for L=3,4,5,6.">
+    <figcaption><span class="fignum">Figure 3.</span> Focus-state predicted survival
+    vs. regularization, by block length. The single-cell fit can be brought near the
+    actual value, but only under regularization that is not justified by the global
+    RMSE.</figcaption>
+  </figure>
+
+  <p>The report's self-verdict is <strong>C — "maxent no better than raw/damped"</strong>,
+  with the explicit reminder that this is an approximate projection, not a full exact
+  IPF over all words.</p>
+
+  <h2>4.5 Summary of the four verdicts</h2>
+
+  <table>
+    <caption>Table 4.3 — Headline numbers and self-classification per test.</caption>
+    <thead>
+      <tr><th>Test</th><th>Type</th><th class="num">Headline</th><th>Self-class</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>1 · anomaly B3/B4</td><td>diagnostic</td><td class="num">+0.0236 AUC; focus AUC 0.719</td><td><span class="chip b">B</span></td></tr>
+      <tr><td>2 · length renorm</td><td>diagnostic</td><td class="num">+score AUC 0.5363→0.5643</td><td><span class="chip b">B</span></td></tr>
+      <tr><td>3 · reweighting</td><td>generative</td><td class="num">best RMSE 0.000440978 (L3, α0.25)</td><td><span class="chip c">C</span></td></tr>
+      <tr><td>4 · maxent projection</td><td>generative</td><td class="num">best RMSE 0.000493147 (worse)</td><td><span class="chip c">C</span></td></tr>
+    </tbody>
+  </table>
+
+  <p>Diagnostic tests land at B; generative tests land at C. The next section reads
+  these four verdicts together and says exactly what the letters mean.</p>
+
+  <nav class="chap-nav">
+    <a href="03_method.html">&larr; 3. Method</a>
+    <span class="spacer"></span>
+    <a href="05_negative_results.html">5. Negative Results &rarr;</a>
+  </nav>
+  <nav class="footer-nav" aria-label="Site">
+    <a href="../index.html">Home</a>
+    <a href="01_introduction.html">Introduction</a>
+    <a href="02_background.html">Background</a>
+    <a href="03_method.html">Method</a>
+    <a href="04_results.html" aria-current="page">Results</a>
+    <a href="05_negative_results.html">Negative Results</a>
+    <a href="06_discussion.html">Discussion</a>
+    <a href="07_appendix.html">Appendix</a>
+    <a href="https://github.com/USER/REPO">GitHub</a>
+  </nav>
+</main>
+</body>
+</html>
