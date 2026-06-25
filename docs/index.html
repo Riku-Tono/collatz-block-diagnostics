@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>1. Introduction — Collatz finite-block diagnostics</title>
+<link rel="stylesheet" href="style.css">
+<script>
+  MathJax = { tex: { inlineMath: [['\\(','\\)']], displayMath: [['\\[','\\]']] } };
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.min.js" id="MathJax-script" async></script>
+</head>
+<body>
+<main class="wrap">
+  <nav class="site-nav" aria-label="Site">
+    <a href="../index.html">Home</a>
+    <a href="01_introduction.html" aria-current="page">Introduction</a>
+    <a href="02_background.html">Background</a>
+    <a href="03_method.html">Method</a>
+    <a href="04_results.html">Results</a>
+    <a href="05_negative_results.html">Negative Results</a>
+    <a href="06_discussion.html">Discussion</a>
+    <a href="07_appendix.html">Appendix</a>
+    <a href="https://github.com/USER/REPO">GitHub</a>
+  </nav>
+<div class="chapter-mark"><span><span class="num">01</span> &nbsp;Introduction</span><span>Collatz finite-block diagnostics</span></div>
+
+  <h1>Finite-block diagnostics for Collatz escape words, against an iid 2-adic reference</h1>
+
+  <p class="lead">This paper reports a sequence of measurements comparing finite-integer
+  Collatz escape-word statistics to those of an iid 2-adic word model. Its purpose is
+  to map, experimentally, <em>how the two differ</em> and <em>how far simple
+  finite-block descriptions can go in reproducing that difference</em> — not to
+  identify the object that generates the difference.</p>
+
+  <h2>1.1 The question</h2>
+
+  <p>Accelerated Collatz (Syracuse) trajectories can be summarized by their
+  <span class="term">escape word</span>: the sequence of 2-adic valuations
+  \(k_i = v_2(3n_i + 1)\) recorded until the trajectory escapes a layer. A common
+  modelling idealization replaces these valuations with an iid 2-adic draw. The
+  finite integers are not iid, and the practical question is structural:</p>
+
+  <blockquote>
+  <p><em>Conditioned on coarse path descriptors, where does the finite-integer word
+  measure depart from the iid reference, and is that departure captured — or
+  generated — by finite-block statistics?</em></p>
+  </blockquote>
+
+  <p>We answer the first half (where) and report a consistently negative answer to a
+  strong form of the second half (generated): finite blocks <em>diagnose</em> the
+  departure, with discriminative power that increases with block length, but the
+  finite-block <em>generative</em> models we tried do not reproduce the whole-word
+  deficit.</p>
+
+  <h2>1.2 What we claim, and what we do not</h2>
+
+  <div class="stance">
+    <span class="tag">We claim</span>
+    Short blocks of valuation categories carry a measurable, length-increasing
+    diagnostic signal that separates finite-integer words from iid words inside
+    fixed conditioning cells, after controlling for cumulative valuation, parity,
+    and path shape.
+  </div>
+
+  <div class="stance warn">
+    <span class="tag">We do not claim</span>
+    That this signal constitutes a generative model of the finite-integer word
+    measure; that any single mechanism (Doob <em>h</em>-transform, hidden
+    semi-Markov process, Gibbs measure, first-passage conditioning, …) is the object
+    being measured; or anything about the truth of the Collatz conjecture. Such
+    classes appear only as candidates in §6.
+  </div>
+
+  <h2>1.3 Contributions</h2>
+
+  <ol>
+    <li>A shared conditioning scheme — <span class="term">states</span> defined by
+    bridge cluster, cumulative-valuation window, and parity — under which four
+    finite-block tests are made directly comparable (§3).</li>
+    <li>A <strong>diagnostic</strong> result: block log-ratio scores separate actual
+    from iid, and the separation grows monotonically as the block length increases
+    from \(L=3\) to \(L=6\) (§4, Tests 1–2).</li>
+    <li>Two <strong>negative generative</strong> results: finite-block reweighting
+    overcorrects, and an approximate maximum-entropy block projection does no better
+    than raw/damped reweighting (§4, Tests 3–4; consolidated in §5).</li>
+    <li>An honest account of the coarse <code>A/B/C/D</code> self-classifications the
+    scripts emit, and of the residual structure — indexed by bridge shape and parity
+    — that no test removed (§5).</li>
+  </ol>
+
+  <h2>1.4 Reading guide</h2>
+
+  <p>§2 fixes notation and the reference model. §3 defines the states and the block
+  score. §4 reports the four tests in turn, each in its own section. §5 is the
+  central chapter: it consolidates the negative results and explains the
+  classification letters. §6 lists candidate model classes <em>as candidates only</em>
+  and flags the ways each could be over-read. §7 collects definitions, constants, and
+  reproduction notes.</p>
+
+  <nav class="chap-nav">
+    <span class="spacer"></span>
+    <a href="02_background.html">2. Background &rarr;</a>
+  </nav>
+  <nav class="footer-nav" aria-label="Site">
+    <a href="../index.html">Home</a>
+    <a href="01_introduction.html" aria-current="page">Introduction</a>
+    <a href="02_background.html">Background</a>
+    <a href="03_method.html">Method</a>
+    <a href="04_results.html">Results</a>
+    <a href="05_negative_results.html">Negative Results</a>
+    <a href="06_discussion.html">Discussion</a>
+    <a href="07_appendix.html">Appendix</a>
+    <a href="https://github.com/USER/REPO">GitHub</a>
+  </nav>
+</main>
+</body>
+</html>
