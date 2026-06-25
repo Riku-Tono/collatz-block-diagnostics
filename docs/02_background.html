@@ -21,7 +21,7 @@
     <a href="05_negative_results.html">Negative Results</a>
     <a href="06_discussion.html">Discussion</a>
     <a href="07_appendix.html">Appendix</a>
-    <a href="https://github.com/USER/REPO">GitHub</a>
+     <a href="https://github.com/Riku-Tono/collatz-block-diagnostics">GitHub</a>
   </nav>
 <div class="chapter-mark"><span><span class="num">02</span> &nbsp;Background</span><span>Collatz finite-block diagnostics</span></div>
 
@@ -38,7 +38,7 @@
 
   \[ n \;\longmapsto\; \frac{3n+1}{2^{\,k}}, \qquad k = v_2(3n+1) \ge 1 . \]
 
-  <p>Following a trajectory until it <span class="term">escapes</span> its layer
+  <p>Following a trajectory until it <span class="term">escapes</span> the layer
   produces a finite sequence of valuations</p>
 
   \[ \mathbf{k} = (k_1, k_2, \dots, k_\tau), \qquad k_i \ge 1, \]
@@ -46,7 +46,7 @@
   <p>which we call the <span class="term">escape word</span>; \(\tau\) is its length.
   The cumulative valuation is \(K_\tau = \sum_i k_i\). In log-magnitude terms each
   step contributes \(\log_2 3 - k_i\), so the partial sums of \(\log_2 3 - k_i\)
-  trace the trajectory's descent; this is the path we summarize by shape features
+  describe the trajectory's descent; this is the path we summarize by shape features
   below.</p>
 
   <h2>2.2 The two measures being compared</h2>
@@ -58,7 +58,7 @@
     exhaustive residue-status caches over odd residues up to \(2^{\text{power}}\),
     for <code>power</code> in \(\{24,\dots,28\}\). Trajectories flagged
     <code>ESCAPE</code> are traced and weighted by their layer mass.</li>
-    <li><strong>iid</strong> — words sampled from an iid 2-adic reference: valuations
+    <li><strong>iid</strong> — words sampled from the iid 2-adic reference: valuations
     drawn from a tilted geometric-like law (<code>tilted_k</code>) independently at
     each step, with importance weights that match the layer geometry. The reference
     is the null against which "actual" is measured.</li>
@@ -66,7 +66,7 @@
 
   <div class="stance">
     <span class="tag">Framing</span>
-    Throughout, the object of study is the <em>discrepancy</em> between actual and
+    Throughout this paper, the object of study is the <em>discrepancy</em> between actual and
     iid <em>inside a state</em>, not either measure on its own. Every reported
     quantity (AUC, RMSE, survival, residual) is a comparison.
   </div>
@@ -85,14 +85,14 @@
 
   <h2>2.4 Why a finite-block view at all</h2>
 
-  <p>Prior steps in this program established that the discrepancy is not captured by
+  <p>Previous analyses suggest that the discrepancy is not adequately captured by
   any single low-order summary: not by \(K_\tau\), not by \(\tau\), not by mean
   valuation or cumulative drift, and that one-step transitions are close to iid. In
   the regression baseline used here those covariates together separate actual from
-  iid only marginally (AUC \(\approx 0.50\); see §4). The finite-block tests are the
-  natural next question: if the deviation is not one-step and not in these scalars,
-  does it live in <em>short multi-step patterns</em>, and if so can those patterns be
-  turned into a generator?</p>
+  iid only marginally (AUC \(\approx 0.50\); see §4). This naturally leads to the
+  finite-block question: if the deviation is not one-step and is not adequately
+  captured by these scalars, does it live in <em>short multi-step patterns</em>,
+  and if so can those patterns be turned into a generator?</p>
 
   <p>The remainder of the paper answers: the deviation does show up in short blocks
   (diagnostically), but turning the blocks into a generator fails in the two ways we
@@ -105,14 +105,14 @@
   </nav>
   <nav class="footer-nav" aria-label="Site">
     <a href="../index.html">Home</a>
-    <a href="01_introduction.html">Introduction</a>
+     <a href="index.html">Introduction</a>
     <a href="02_background.html" aria-current="page">Background</a>
     <a href="03_method.html">Method</a>
     <a href="04_results.html">Results</a>
     <a href="05_negative_results.html">Negative Results</a>
     <a href="06_discussion.html">Discussion</a>
     <a href="07_appendix.html">Appendix</a>
-    <a href="https://github.com/USER/REPO">GitHub</a>
+     <a href="https://github.com/Riku-Tono/collatz-block-diagnostics">GitHub</a>
   </nav>
 </main>
 </body>

@@ -14,15 +14,15 @@
 <main class="wrap">
   <nav class="site-nav" aria-label="Site">
     <a href="../index.html">Home</a>
-    <a href="index.html">Introduction</a>
+     <a href="index.html">Introduction</a>
     <a href="02_background.html">Background</a>
     <a href="03_method.html" aria-current="page">Method</a>
     <a href="04_results.html">Results</a>
     <a href="05_negative_results.html">Negative Results</a>
     <a href="06_discussion.html">Discussion</a>
     <a href="07_appendix.html">Appendix</a>
-    <a href="https://github.com/USER/REPO">GitHub</a>
-  </nav>
+  <a href="https://github.com/Riku-Tono/collatz-block-diagnostics">GitHub</a>
+ </nav>
 <div class="chapter-mark"><span><span class="num">03</span> &nbsp;Method</span><span>Collatz finite-block diagnostics</span></div>
 
   <h1>States, scores, and the four tests</h1>
@@ -54,18 +54,18 @@
     (<code>even</code>/<code>odd</code>).</li>
   </ul>
 
-  <p>One cell is singled out as a stress test throughout:</p>
+  <p>One state is used throughout as a stress test:</p>
 
   \[ \textbf{focus state} \;=\; \texttt{late\_growth | tail\_64\_95 | even}, \]
 
-  <p>a deep-tail, late-growth, even cell where the actual–iid difference is most
-  visible and the sampling is thinnest.</p>
+  <p>a deep-tail, late-growth, even state where the actual–iid discrepancy is largest
+  and the sampling is thinnest.</p>
 
   <h2>3.2 Block log-ratio score</h2>
 
   <p>On the <em>train</em> split, for each \((L, \text{state}, u\text{-bin},
-  \text{block})\) we estimate smoothed actual and iid block probabilities and store a
-  log-ratio,</p>
+  \text{block})\) we estimate the smoothed block probabilities for the actual and iid samples and
+  store a log-ratio,</p>
 
   \[ s_L(\text{state}, u, \text{block}) \;=\; \log_2 \frac{p^{\text{actual}}(\text{block})}{p^{\text{iid}}(\text{block})}, \]
 
@@ -80,8 +80,8 @@
 
   \[ S_L(\mathbf{k}) \;=\; \sum_{i} s_L\!\big(\text{state}, \, u\text{-bin}(i,\tau), \, \text{block}_i\big). \]
 
-  <p>Train/test separation is by deterministic sample-index parity, so no word scores
-  itself.</p>
+  <p>The train/test split is determined by sample-index parity, so no word is scored
+  by probabilities estimated from itself.</p>
 
   <h2>3.3 The four tests</h2>
 
@@ -95,8 +95,8 @@
       <tr><th>#</th><th>Test</th><th>Type</th><th>Question</th></tr>
     </thead>
     <tbody>
-      <tr><td>1</td><td>Block anomaly (B3/B4)</td><td>diagnostic</td><td>Does \(S_4\) add separation over a baseline of \(x_K\), parity, bridge, path-shape?</td></tr>
-      <tr><td>2</td><td>Block-length renormalization</td><td>diagnostic</td><td>Does the separation grow with \(L=3..6\); does the residual shrink?</td></tr>
+      <tr><td>1</td><td>Block anomaly (B3/B4)</td><td>diagnostic</td><td>Does \(S_4\) improve separation over a baseline of \(x_K\), parity, bridge, path-shape?</td></tr>
+      <tr><td>2</td><td>Block-length renormalization</td><td>diagnostic</td><td>Does the separation grow with \(L=3,\dots,6\); does the residual shrink?</td></tr>
       <tr><td>3</td><td>Finite-block reweighting</td><td>generative</td><td>Does reweighting iid by \(2^{\alpha S_L}\) reproduce the actual mass?</td></tr>
       <tr><td>4</td><td>MaxEnt block projection</td><td>generative</td><td>Does a regularized IPF matching block marginals beat raw/damped reweighting?</td></tr>
     </tbody>
@@ -104,30 +104,30 @@
 
   <h3>Test 1 — block anomaly score</h3>
   <p>Fit a weighted logistic classifier (actual vs iid) on baseline covariates, then
-  add the block score and measure the change in weighted AUC, watching whether the
-  bridge and parity coefficients are absorbed.</p>
+  add the block score and measure the change in weighted AUC, while assessing whether
+  the bridge and parity coefficients are absorbed.</p>
 
   <h3>Test 2 — block-length renormalization</h3>
-  <p>Repeat the score construction for \(L=3,4,5,6\) and track the marginal-score AUC,
+  <p>Repeat the construction for \(L=3,\dots,6\) and track the marginal-score AUC,
   the \(+\)score logistic AUC, and the bridge/parity residual coefficients as
   functions of \(L\). Also track per-decile survival ratios in the focus state.</p>
 
   <h3>Test 3 — finite-block reweighting</h3>
   <p>Reweight each iid test word by \(2^{\alpha S_L}\) for
-  \(\alpha \in \{0,0.25,0.5,0.75,1\}\), rescale total predicted mass to the actual
+  \(\alpha \in \{0, 0.25, 0.5, 0.75, 1\}\), rescale the total predicted mass to the actual
   total over stable states, and compare predicted vs actual state-mass distributions
   by RMSE and Jensen–Shannon divergence.</p>
 
   <h3>Test 4 — maximum-entropy block projection</h3>
   <p>Run an approximate, regularized IPF / exponential-family update on the iid test
-  measure to match block marginals, for \(L=3..6\) and regularization
-  \(\{0,0.5,0.75,0.9\}\) (two iterations, evaluation capped at \(40{,}000\) iid
+  measure to match block marginals, for \(L=3,\dots,6\) and regularization
+  \(\{0, 0.5, 0.75, 0.9\}\) (two iterations, evaluation capped at \(40{,}000\) iid
   words). Compare the projected state distribution to actual, and to the best
   raw/damped reweighting fit from Test 3.</p>
 
   <div class="stance warn">
     <span class="tag">Scope of the projection</span>
-    Test 4 is an <em>approximate</em> projection, not an exact IPF over all words.
+    Test 4 is an <em>approximate</em> projection, not an exact IPF solution over all words.
     It is built to distinguish an over-counted raw product from a regularized
     finite-block exponential family — not to certify a maximum-entropy fit.
   </div>
@@ -139,10 +139,9 @@
     (diagnostic tests).</li>
     <li><strong>RMSE / JS</strong> — predicted vs actual state-mass distribution
     (generative tests).</li>
-    <li><strong>survival</strong> — used in two senses across reports: a per-decile
-    ratio \(S = (\text{actual mass})/(\text{iid mass})\) in Tests 1–2, and a
-    modelled-vs-actual mass on the focus state in Tests 3–4. We keep the two senses
-    separate when citing numbers.</li>
+    <li><strong>survival</strong> — reported in two explicitly separated forms: a
+    per-decile survival ratio \(S = (\text{actual mass})/(\text{iid mass})\) in
+    Tests 1–2, and focus-state retained mass, modelled vs actual, in Tests 3–4.</li>
     <li><strong>bridge / parity residual</strong> — magnitude of the bridge-cluster
     and parity coefficients that remain after the block score is included.</li>
   </ul>
@@ -161,7 +160,7 @@
     <a href="05_negative_results.html">Negative Results</a>
     <a href="06_discussion.html">Discussion</a>
     <a href="07_appendix.html">Appendix</a>
-    <a href="https://github.com/USER/REPO">GitHub</a>
+     <a href="https://github.com/Riku-Tono/collatz-block-diagnostics">GitHub</a>
   </nav>
 </main>
 </body>

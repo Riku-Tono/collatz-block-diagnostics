@@ -14,14 +14,14 @@
 <main class="wrap">
   <nav class="site-nav" aria-label="Site">
     <a href="../index.html">Home</a>
-    <a href="index.html">Introduction</a>
+     <a href="index.html">Introduction</a>
     <a href="02_background.html">Background</a>
     <a href="03_method.html">Method</a>
     <a href="04_results.html">Results</a>
     <a href="05_negative_results.html" aria-current="page">Negative Results</a>
     <a href="06_discussion.html">Discussion</a>
     <a href="07_appendix.html">Appendix</a>
-    <a href="https://github.com/USER/REPO">GitHub</a>
+    <a href="https://github.com/Riku-Tono/collatz-block-diagnostics">GitHub</a>
   </nav>
 <div class="chapter-mark"><span><span class="num">05</span> &nbsp;Negative Results</span><span>Collatz finite-block diagnostics</span></div>
 
@@ -29,20 +29,21 @@
 
   <p class="lead">This is the central chapter. The contribution of the study is not a
   model but a structured set of <em>eliminations</em>: a list of descriptions that do
-  not account for the finite-vs-iid discrepancy, ordered from the simplest to the most
-  elaborate, together with the residual that survives all of them.</p>
+  not account for the finite-vs-iid discrepancy, ordered from the simplest to
+  progressively richer descriptions, together with the residual that survives all of
+  them.</p>
 
   <h2>5.1 The ladder of eliminations</h2>
 
   <p>Read top to bottom, each rung is a more capable description than the one above,
-  and each is ruled out as an <em>explanation</em> of the discrepancy. The first four
-  rungs come from prior steps of the program and from the regression baseline used
+  and each is ruled out as a <em>complete explanation</em> of the discrepancy. The
+  first four rungs come from previous analyses and from the regression baseline used
   here; the last three are the present tests.</p>
 
   <table>
     <caption>Table 5.1 — What does not account for the discrepancy, and the evidence in hand.</caption>
     <thead>
-      <tr><th>Rung</th><th>Description ruled out as an explanation</th><th>Evidence here</th></tr>
+      <tr><th>Rung</th><th>Description ruled out as a complete explanation</th><th>Evidence here</th></tr>
     </thead>
     <tbody>
       <tr><td>1</td><td>cumulative valuation \(x_K\) alone</td><td>in the baseline, \(x_K\)+parity+bridge+\(z\) give AUC ≈ 0.50</td></tr>
@@ -51,22 +52,23 @@
       <tr><td>4</td><td>a one-step (near-iid local) picture</td><td>prior step; local transitions close to iid</td></tr>
       <tr><td>5</td><td>finite blocks as a generator (reweighting)</td><td>Test 3: overcorrects; best fit is the damped baseline <span class="chip c">C</span></td></tr>
       <tr><td>6</td><td>finite-block maximum entropy</td><td>Test 4: no better than raw/damped <span class="chip c">C</span></td></tr>
-      <tr><td>7</td><td>accumulating block anomalies → whole-word deficit</td><td>Tests 1–2: AUC grows, bridge/parity residual persists <span class="chip b">B</span></td></tr>
+      <tr><td>7</td><td>accumulating block anomalies → whole-word deficit</td><td>Tests 1–2: AUC grows, bridge/parity residual structure persists <span class="chip b">B</span></td></tr>
     </tbody>
   </table>
 
   <div class="stance">
     <span class="tag">The shape of the finding</span>
-    The discrepancy is <em>diagnosable</em> at every level — short blocks see it,
-    longer blocks see it better — yet it is <em>not generated</em> by any
-    finite-block construction we tried, and a residual indexed by bridge shape and
-    parity is left untouched. Diagnostic power and generative power come apart.
+    The discrepancy is <em>diagnosable</em> at every level — short blocks detect it,
+    and longer blocks detect it more clearly — yet it is <em>not generated</em> by any
+    finite-block construction we tried, and a residual structure indexed by bridge
+    shape and parity is left untouched. Diagnostic power and generative power come apart.
   </div>
 
   <h2>5.2 What the diagnostic tests do show</h2>
 
-  <p>It would be wrong to read this as "finite blocks see nothing". They see a real,
-  monotone signal: the \(+\)score AUC rises from \(0.5363\) at \(L=3\) to \(0.5643\)
+  <p>These results should not be read as implying that finite blocks see nothing. The
+  finite-block diagnostics reveal a real, monotonic signal: the \(+\)score AUC rises
+  from \(0.5363\) at \(L=3\) to \(0.5643\)
   at \(L=6\) (Table 4.2), and the focus-state \(B_4\) separation reaches AUC \(0.719\)
   (§4.1). The negative content is specific and narrower:</p>
 
@@ -74,7 +76,7 @@
     <li>the rising AUC does <em>not</em> drive the bridge coefficient to zero
     (it falls by \(0.0162\) when \(B_4\) is added; §4.1) — the block signal and the
     bridge structure are largely independent;</li>
-    <li>the parity coefficient is not reduced at all by the block score (§4.1, §4.2);</li>
+    <li>the remaining parity effect is not reduced at all by the block score (§4.1, §4.2);</li>
     <li>no block length tested closes the gap, and whether any finite \(L\) would is
     left open.</li>
   </ul>
@@ -91,16 +93,16 @@
     \(L=6,\ \alpha=1\). A raw product of block ratios over-counts.</li>
     <li><strong>Maximum entropy (Test 4) does not over-count, and still does not
     win.</strong> Replacing the raw product with a regularized projection removes the
-    over-sharpening but lands at RMSE \(0.000493147\), worse than the damped baseline's
-    \(0.000440978\) (Figure 1). Matching block marginals is not enough to recover the
+    over-sharpening but yields an RMSE of \(0.000493147\), worse than the damped
+    baseline's \(0.000440978\) (Figure 1). Matching block marginals is not enough to recover the
     state distribution.</li>
   </ul>
 
-  <p>Together: the failure is not merely "we reweighted too hard". A principled
-  finite-block exponential family that matches block marginals also misses, which is
-  the stronger negative statement.</p>
+  <p>Taken together, these results show that the failure is not merely "we reweighted
+  too hard". A principled finite-block exponential family that matches block marginals
+  also misses. That is the stronger negative statement.</p>
 
-  <h2>5.4 What the classification letters mean — honestly</h2>
+  <h2>5.4 Reading the classification letters</h2>
 
   <p>Each script emits a coarse self-classification. <strong>These letters are not a
   shared scale and not an external benchmark.</strong> They are per-test verdicts with
@@ -112,8 +114,8 @@
       <tr><th>Letter</th><th>In the diagnostic tests (1–2)</th><th>In the generative tests (3–4)</th></tr>
     </thead>
     <tbody>
-      <tr><td><strong>A</strong></td><td>finite blocks reconstruct the whole-word deficit (AUC gain large <em>and</em> residuals small)</td><td>—</td></tr>
-      <tr><td><strong>B</strong></td><td>AUC grows with the block score, but the bridge/parity residual remains</td><td>—</td></tr>
+      <tr><td><strong>A</strong></td><td>finite blocks reconstruct the whole-word deficit (AUC gain large <em>and</em> residual structure small)</td><td>—</td></tr>
+      <tr><td><strong>B</strong></td><td>AUC grows with the block score, but the bridge/parity structure remains</td><td>—</td></tr>
       <tr><td><strong>C</strong></td><td>improvement saturates near \(B_4\)</td><td>the generator overcorrects, or is no better than the simple/damped baseline</td></tr>
       <tr><td><strong>D</strong></td><td>signal too sparse or noisy to read</td><td>—</td></tr>
     </tbody>
@@ -129,20 +131,21 @@
   <div class="stance warn">
     <span class="tag">How to read B and C together</span>
     The diagnostic tests reach <strong>B</strong> ("the signal is real but the
-    residual stays") and the generative tests reach <strong>C</strong> ("the generator
-    does not beat the baseline"). No test reached <strong>A</strong>. The honest
+    residual structure remains") and the generative tests reach <strong>C</strong> ("the
+    generator does not beat the baseline"). No test reached <strong>A</strong>. The honest
     summary is that finite-block features are informative diagnostics and weak
     generators — the verdicts are consistent with that and do not support more.
   </div>
 
   <h2>5.5 The residual that survives everything</h2>
 
-  <p>After all four tests, what remains unexplained is specific and reproducible: a
-  state-distribution residual <em>indexed by bridge shape and by parity</em>. It is
+  <p>The common conclusion of all four tests is the persistence of a single residual
+  structure. What remains unexplained is specific and reproducible: a state-distribution
+  component <em>indexed by bridge shape and by parity</em>. It is
   large in coefficient terms (bridge \(\approx 1.10\)–\(1.13\), parity
-  \(\approx 0.37\)–\(0.44\)), it is not absorbed by adding block scores, and it is the
-  same structure flagged by the bridge-RMSE and parity-RMSE figures in Tests 3–4. We
-  record this residual as the principal open object; §6 lists candidate frameworks for
+  \(\approx 0.37\)–\(0.44\)), it is not explained away by adding block scores, and it is the same pattern flagged
+  by the bridge-RMSE and parity-RMSE figures in Tests 3–4. We
+  record this as the principal unresolved structure; §6 lists candidate frameworks for
   thinking about it, strictly as candidates.</p>
 
   <nav class="chap-nav">
@@ -159,7 +162,7 @@
     <a href="05_negative_results.html" aria-current="page">Negative Results</a>
     <a href="06_discussion.html">Discussion</a>
     <a href="07_appendix.html">Appendix</a>
-    <a href="https://github.com/USER/REPO">GitHub</a>
+    <a href="https://github.com/Riku-Tono/collatz-block-diagnostics">GitHub</a>
   </nav>
 </main>
 </body>
