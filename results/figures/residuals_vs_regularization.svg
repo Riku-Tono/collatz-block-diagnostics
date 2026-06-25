@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="780" height="430" viewBox="0 0 780 430">
+<rect width="100%" height="100%" fill="white"/>
+<text x="390.0" y="25" text-anchor="middle" font-family="Arial" font-size="17">Parity residual RMSE vs regularization</text>
+<polyline points="70.0,355.9 381.1,356.0 536.7,356.7 630.0,357.3" fill="none" stroke="#64748b" stroke-width="2"/>
+<text x="648" y="70" font-family="Arial" font-size="12" fill="#64748b">L=3</text>
+<polyline points="70.0,351.1 381.1,354.8 536.7,355.8 630.0,356.8" fill="none" stroke="#2563eb" stroke-width="2"/>
+<text x="648" y="92" font-family="Arial" font-size="12" fill="#2563eb">L=4</text>
+<polyline points="70.0,86.7 381.1,352.6 536.7,354.2 630.0,356.0" fill="none" stroke="#b91c1c" stroke-width="2"/>
+<text x="648" y="114" font-family="Arial" font-size="12" fill="#b91c1c">L=5</text>
+<polyline points="70.0,173.9 381.1,349.5 536.7,351.6 630.0,354.6" fill="none" stroke="#047857" stroke-width="2"/>
+<text x="648" y="136" font-family="Arial" font-size="12" fill="#047857">L=6</text>
+<line x1="70" y1="365" x2="630" y2="365" stroke="#111827"/>
+</svg>

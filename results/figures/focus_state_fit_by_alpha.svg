@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="420" viewBox="0 0 760 420">
+<rect width="100%" height="100%" fill="white"/>
+<text x="380.0" y="25" text-anchor="middle" font-family="Arial" font-size="17">Focus state S_pred by alpha</text>
+<line x1="70" y1="350.4" x2="625" y2="350.4" stroke="#111827" stroke-dasharray="4 4"/>
+<polyline points="70.0,345.5 208.8,349.7 347.5,348.7 486.2,341.2 625.0,308.2" fill="none" stroke="#64748b" stroke-width="2"/>
+<text x="643" y="70" font-family="Arial" font-size="12" fill="#64748b">L=3</text>
+<polyline points="70.0,345.5 208.8,352.0 347.5,348.4 486.2,297.5 625.0,85.4" fill="none" stroke="#2563eb" stroke-width="2"/>
+<text x="643" y="92" font-family="Arial" font-size="12" fill="#2563eb">L=4</text>
+<polyline points="70.0,345.5 208.8,353.9 347.5,352.8 486.2,354.6 625.0,355.0" fill="none" stroke="#b91c1c" stroke-width="2"/>
+<text x="643" y="114" font-family="Arial" font-size="12" fill="#b91c1c">L=5</text>
+<polyline points="70.0,345.5 208.8,354.7 347.5,353.5 486.2,354.4 625.0,355.0" fill="none" stroke="#047857" stroke-width="2"/>
+<text x="643" y="136" font-family="Arial" font-size="12" fill="#047857">L=6</text>
+<line x1="70" y1="355" x2="625" y2="355" stroke="#111827"/>
+</svg>

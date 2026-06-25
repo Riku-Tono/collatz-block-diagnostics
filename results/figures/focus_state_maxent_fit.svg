@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="780" height="430" viewBox="0 0 780 430">
+<rect width="100%" height="100%" fill="white"/>
+<text x="390.0" y="25" text-anchor="middle" font-family="Arial" font-size="17">Focus predicted survival vs regularization</text>
+<polyline points="70.0,339.7 381.1,331.1 536.7,315.3 630.0,301.7" fill="none" stroke="#64748b" stroke-width="2"/>
+<text x="648" y="70" font-family="Arial" font-size="12" fill="#64748b">L=3</text>
+<polyline points="70.0,86.7 381.1,351.5 536.7,334.7 630.0,312.9" fill="none" stroke="#2563eb" stroke-width="2"/>
+<text x="648" y="92" font-family="Arial" font-size="12" fill="#2563eb">L=4</text>
+<polyline points="70.0,364.4 381.1,360.7 536.7,352.2 630.0,327.7" fill="none" stroke="#b91c1c" stroke-width="2"/>
+<text x="648" y="114" font-family="Arial" font-size="12" fill="#b91c1c">L=5</text>
+<polyline points="70.0,365.0 381.1,362.8 536.7,361.2 630.0,341.6" fill="none" stroke="#047857" stroke-width="2"/>
+<text x="648" y="136" font-family="Arial" font-size="12" fill="#047857">L=6</text>
+<line x1="70" y1="365" x2="630" y2="365" stroke="#111827"/>
+</svg>
