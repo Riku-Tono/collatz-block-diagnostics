@@ -32,6 +32,19 @@ each state we ask a sequence of increasingly demanding questions:
 4. Can an approximate maximum-entropy block projection do better than raw/damped
    reweighting? — `collatz_block_maxent_projection.py`
 
+In addition to these finite-block diagnostics, we include a **descriptive Δ-map
+analysis** of `actual − iid` mass differences, `Δ = actual_mass − iid_mass`, projected
+onto state, prefix, transition, and `remaining_K` boundary-distance coordinates. It
+shows that the residual discrepancy is not concentrated in a single prefix or
+transition cylinder, but is more sharply localized in state coordinates and in
+`remaining_K` boundary-distance coordinates, with the largest observed `|Δ|` at
+`remaining_K = 32–63`.
+
+> The Δ-map analysis is descriptive. It does not identify a new Collatz mechanism and
+> does not prove that `remaining_K` is causal. `remaining_K = 32–63` should be read as
+> the largest observed discrepancy band, not as a generating source of the
+> discrepancy.
+
 ## What this study is **not**
 
 This is a measurement and model-comparison study. In particular:
@@ -204,7 +217,17 @@ following descriptions **fail to account** for the finite-vs-iid discrepancy:
 
 What *survives* as organizing structure: block features become more discriminative
 as `L` grows, and a residual that is indexed by **bridge shape** and **parity**
-remains after the block score is included.
+remains after the block score is included. The descriptive Δ-map adds where this
+residual is visible:
+
+- the block score carries a diagnostic signal, but the residual remains in
+  **state** and **boundary** coordinates;
+- the largest observed `|Δ|` is at `remaining_K = 32–63`;
+- in prefix/transition coordinates the difference does not concentrate in a single
+  cell;
+- this is most naturally read as a **mass-placement difference along the
+  `remaining_K` chain**, not as a local word fragment — and `remaining_K = 32–63` is
+  the largest *observed* band, not an identified source.
 
 ## Open problems
 
