@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="430" viewBox="0 0 800 430">
+<rect width="100%" height="100%" fill="white"/>
+<text x="400.0" y="28" text-anchor="middle" font-family="Arial" font-size="16">Focus-state boundary delta curves</text>
+<line x1="70" y1="370" x2="766" y2="370" stroke="#111827"/>
+<line x1="70" y1="50" x2="70" y2="370" stroke="#111827"/>
+<line x1="70" y1="210.0" x2="766" y2="210.0" stroke="#9ca3af" stroke-dasharray="4 4"/>
+<text x="70.0" y="392" text-anchor="middle" font-family="Arial" font-size="10">0.0-0.1</text>
+<text x="147.3" y="392" text-anchor="middle" font-family="Arial" font-size="10">0.1-0.2</text>
+<text x="224.7" y="392" text-anchor="middle" font-family="Arial" font-size="10">0.2-0.3</text>
+<text x="302.0" y="392" text-anchor="middle" font-family="Arial" font-size="10">0.3-0.4</text>
+<text x="379.3" y="392" text-anchor="middle" font-family="Arial" font-size="10">0.4-0.5</text>
+<text x="456.7" y="392" text-anchor="middle" font-family="Arial" font-size="10">0.5-0.6</text>
+<text x="534.0" y="392" text-anchor="middle" font-family="Arial" font-size="10">0.6-0.7</text>
+<text x="611.3" y="392" text-anchor="middle" font-family="Arial" font-size="10">0.7-0.8</text>
+<text x="688.7" y="392" text-anchor="middle" font-family="Arial" font-size="10">0.8-0.9</text>
+<text x="766.0" y="392" text-anchor="middle" font-family="Arial" font-size="10">0.9-1.0</text>
+<polyline points="70.0,349.1 147.3,349.1 224.7,349.1 302.0,349.1 379.3,349.1 456.7,349.1 534.0,349.1 611.3,349.1 688.7,349.1 766.0,349.1" fill="none" stroke="#111827" stroke-width="2.2"/>
+<text x="78" y="68" font-family="Arial" font-size="11" fill="#111827">late_growth|deep_32_63|even</text>
+<polyline points="70.0,204.4 147.3,204.4 224.7,204.4 302.0,204.4 379.3,204.4 456.7,204.4 534.0,204.4 611.3,204.4 688.7,204.4 766.0,204.4" fill="none" stroke="#b91c1c" stroke-width="2.2"/>
+<text x="78" y="84" font-family="Arial" font-size="11" fill="#b91c1c">late_growth|deep_32_63|odd</text>
+<polyline points="70.0,131.7 147.3,131.7 224.7,131.7 302.0,131.7 379.3,131.7 456.7,131.7 534.0,131.7 611.3,131.7 688.7,131.7 766.0,131.7" fill="none" stroke="#2563eb" stroke-width="2.2"/>
+<text x="78" y="100" font-family="Arial" font-size="11" fill="#2563eb">late_growth|exhaustion_0_31|odd</text>
+</svg>

@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="496" height="238" viewBox="0 0 496 238">
+<rect width="100%" height="100%" fill="white"/>
+<text x="248.0" y="28" text-anchor="middle" font-family="Arial" font-size="16">Entry-from remaining_K delta heatmap</text>
+<text x="312.0" y="50" text-anchor="middle" font-family="Arial" font-size="10">64-95</text>
+<text x="416.0" y="50" text-anchor="middle" font-family="Arial" font-size="10">START_IN_32-63</text>
+<text x="252" y="88.0" text-anchor="end" font-family="Arial" font-size="10">late_growth|deep_32_63|even</text>
+<rect x="260" y="62" width="104" height="44" fill="rgb(195,227,254)" stroke="white"/>
+<text x="312.0" y="88.0" text-anchor="middle" font-family="Arial" font-size="9">-0.00207</text>
+<rect x="364" y="62" width="104" height="44" fill="rgb(209,231,254)" stroke="white"/>
+<text x="416.0" y="88.0" text-anchor="middle" font-family="Arial" font-size="9">-0.000884</text>
+<text x="252" y="132.0" text-anchor="end" font-family="Arial" font-size="10">late_growth|deep_32_63|odd</text>
+<rect x="260" y="106" width="104" height="44" fill="rgb(219,234,254)" stroke="white"/>
+<text x="312.0" y="132.0" text-anchor="middle" font-family="Arial" font-size="9">-6.86e-05</text>
+<rect x="364" y="106" width="104" height="44" fill="rgb(185,211,211)" stroke="white"/>
+<text x="416.0" y="132.0" text-anchor="middle" font-family="Arial" font-size="9">+0.000187</text>
+<text x="252" y="176.0" text-anchor="end" font-family="Arial" font-size="10">late_growth|exhaustion_0_31|odd</text>
+<rect x="260" y="150" width="104" height="44" fill="rgb(185,220,220)" stroke="white"/>
+<text x="312.0" y="176.0" text-anchor="middle" font-family="Arial" font-size="9">+0</text>
+<rect x="364" y="150" width="104" height="44" fill="rgb(185,184,184)" stroke="white"/>
+<text x="416.0" y="176.0" text-anchor="middle" font-family="Arial" font-size="9">+0.000817</text>
+</svg>

@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="980" height="560" viewBox="0 0 980 560">
+<rect width="100%" height="100%" fill="white"/>
+<text x="490.0" y="28" text-anchor="middle" font-family="Arial" font-size="16">Entry-from remaining_K delta</text>
+<line x1="617.5" y1="50" x2="617.5" y2="515" stroke="#6b7280"/>
+<text x="282" y="90.2" text-anchor="end" font-family="Arial" font-size="9">ALL|64-95</text>
+<rect x="290.0" y="53.0" width="327.5" height="60.4" fill="#2563eb" opacity="0.82"/>
+<text x="285.0" y="90.2" text-anchor="end" font-family="Arial" font-size="10">-0.00606</text>
+<text x="282" y="156.6" text-anchor="end" font-family="Arial" font-size="9">ALL|START_IN_32-63</text>
+<rect x="444.4" y="119.4" width="173.1" height="60.4" fill="#2563eb" opacity="0.82"/>
+<text x="439.4" y="156.6" text-anchor="end" font-family="Arial" font-size="10">-0.0032</text>
+<text x="282" y="223.1" text-anchor="end" font-family="Arial" font-size="9">late_growth|deep_32_63|even|64-95</text>
+<rect x="505.7" y="185.9" width="111.8" height="60.4" fill="#2563eb" opacity="0.82"/>
+<text x="500.7" y="223.1" text-anchor="end" font-family="Arial" font-size="10">-0.00207</text>
+<text x="282" y="289.5" text-anchor="end" font-family="Arial" font-size="9">late_growth|deep_32_63|even|START_IN_32-63</text>
+<rect x="569.7" y="252.3" width="47.8" height="60.4" fill="#2563eb" opacity="0.82"/>
+<text x="564.7" y="289.5" text-anchor="end" font-family="Arial" font-size="10">-0.000884</text>
+<text x="282" y="355.9" text-anchor="end" font-family="Arial" font-size="9">late_growth|exhaustion_0_31|odd|START_IN_32-63</text>
+<rect x="617.5" y="318.7" width="44.2" height="60.4" fill="#b91c1c" opacity="0.82"/>
+<text x="666.7" y="355.9" text-anchor="start" font-family="Arial" font-size="10">+0.000817</text>
+<text x="282" y="422.4" text-anchor="end" font-family="Arial" font-size="9">late_growth|deep_32_63|odd|START_IN_32-63</text>
+<rect x="617.5" y="385.1" width="10.1" height="60.4" fill="#b91c1c" opacity="0.82"/>
+<text x="632.6" y="422.4" text-anchor="start" font-family="Arial" font-size="10">+0.000187</text>
+<text x="282" y="488.8" text-anchor="end" font-family="Arial" font-size="9">late_growth|deep_32_63|odd|64-95</text>
+<rect x="613.8" y="451.6" width="3.7" height="60.4" fill="#2563eb" opacity="0.82"/>
+<text x="608.8" y="488.8" text-anchor="end" font-family="Arial" font-size="10">-6.86e-05</text>
+</svg>
