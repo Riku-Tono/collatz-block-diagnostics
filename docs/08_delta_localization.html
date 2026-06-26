@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Where does Δ become visible? — Collatz Δ-localization</title>
+<script>
+  MathJax = { tex: { inlineMath: [['\\(','\\)']], displayMath: [['\\[','\\]']] } };
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.min.js" id="MathJax-script" async></script>
+<style>
+  :root{
+    --bg:#faf8f3; --ink:#1c1b18; --muted:#5d5a52; --line:#e0dbcf;
+    --rule:#cfc8b8; --accent:#6b5a3e; --accentbg:#f1ece0;
+    --warn:#8a5a1e; --warnbg:#f6ead4; --chipb:#5b6b4d; --chipc:#8a6a4a;
+    --maxw:760px;
+  }
+  *{box-sizing:border-box;}
+  html{ -webkit-text-size-adjust:100%; }
+  body{
+    margin:0; background:var(--bg); color:var(--ink);
+    font-family: Georgia,"Times New Roman","Hiragino Mincho ProN",serif;
+    line-height:1.8; font-size:17px;
+  }
+  .wrap{ max-width:var(--maxw); margin:0 auto; padding:0 22px 96px; }
+  nav.site-nav, nav.footer-nav{
+    display:flex; flex-wrap:wrap; gap:2px 16px; font-size:13.5px;
+    font-family: -apple-system,"Segoe UI",Helvetica,Arial,sans-serif;
+    padding:18px 0; border-bottom:1px solid var(--line); margin-bottom:10px;
+  }
+  nav.footer-nav{ border-bottom:none; border-top:1px solid var(--line); margin-top:48px; }
+  nav a{ color:var(--muted); text-decoration:none; }
+  nav a:hover{ color:var(--accent); text-decoration:underline; }
+  nav a[aria-current="page"]{ color:var(--ink); font-weight:600; }
+  .chapter-mark{
+    display:flex; justify-content:space-between; align-items:baseline;
+    font-family:-apple-system,"Segoe UI",Helvetica,Arial,sans-serif;
+    font-size:12px; letter-spacing:.04em; color:var(--muted);
+    text-transform:uppercase; margin:26px 0 4px; padding-bottom:8px;
+    border-bottom:2px solid var(--rule);
+  }
+  .chapter-mark .num{ font-weight:700; color:var(--accent); }
+  h1{ font-size:30px; line-height:1.3; margin:.5em 0 .2em; letter-spacing:.01em; }
+  .subtitle{ color:var(--muted); font-size:16px; margin:.2em 0 1.4em;
+    font-family:-apple-system,"Segoe UI",Helvetica,Arial,sans-serif; }
+  h2{ font-size:21px; margin:2em 0 .5em; padding-top:.4em;
+      border-top:1px solid var(--line); }
+  h3{ font-size:17px; margin:1.5em 0 .3em; color:var(--accent);
+      font-family:-apple-system,"Segoe UI",Helvetica,Arial,sans-serif; }
+  p{ margin:.7em 0; }
+  p.lead{ font-size:18.5px; color:#2c2a25; }
+  em{ font-style:italic; }
+  code{ font-family:"SF Mono",Menlo,Consolas,monospace; font-size:.86em;
+        background:var(--accentbg); padding:.08em .35em; border-radius:3px; }
+  .term{ font-weight:600; color:var(--accent); }
+  .small{ font-size:13.5px; color:var(--muted);
+    font-family:-apple-system,"Segoe UI",Helvetica,Arial,sans-serif; }
+  ul,ol{ padding-left:1.3em; }
+  li{ margin:.35em 0; }
+  table{ width:100%; border-collapse:collapse; margin:1.2em 0; font-size:14.5px;
+    font-family:-apple-system,"Segoe UI",Helvetica,Arial,sans-serif; }
+  caption{ caption-side:top; text-align:left; color:var(--muted);
+    font-size:13px; margin-bottom:.5em; }
+  th,td{ padding:7px 10px; border-bottom:1px solid var(--line); text-align:left; }
+  thead th{ border-bottom:2px solid var(--rule); font-weight:600; }
+  th.num,td.num{ text-align:right; font-variant-numeric:tabular-nums; }
+  tbody tr:last-child td{ border-bottom:2px solid var(--rule); }
+  .stance{ border-left:4px solid var(--accent); background:var(--accentbg);
+    padding:14px 18px; margin:1.4em 0; border-radius:0 6px 6px 0; font-size:15.5px; }
+  .stance.warn{ border-left-color:var(--warn); background:var(--warnbg); }
+  .stance .tag{ display:block; font-size:11.5px; letter-spacing:.06em;
+    text-transform:uppercase; color:var(--accent); font-weight:700;
+    margin-bottom:.4em; font-family:-apple-system,sans-serif; }
+  .stance.warn .tag{ color:var(--warn); }
+  .flow{ display:flex; gap:10px; flex-wrap:wrap; margin:1.2em 0; }
+  .flow > div{ flex:1; min-width:150px; border:1px solid var(--line);
+    border-radius:6px; padding:10px 14px; background:#fff; font-size:14px;
+    font-family:-apple-system,"Segoe UI",Helvetica,Arial,sans-serif; }
+  .flow .lab{ font-size:11px; letter-spacing:.05em; text-transform:uppercase;
+    color:var(--accent); font-weight:700; display:block; margin-bottom:3px; }
+  .chip{ display:inline-block; font-size:11.5px; font-weight:700; color:#fff;
+    border-radius:4px; padding:1px 7px; vertical-align:middle;
+    font-family:-apple-system,sans-serif; }
+  .chip.b{ background:var(--chipb); } .chip.c{ background:var(--chipc); }
+  .neg{ color:#a23c2e; } .pos{ color:#2e6b4f; }
+  .chap-nav{ display:flex; align-items:center; margin-top:42px; font-size:14px;
+    font-family:-apple-system,sans-serif; }
+  .chap-nav .spacer{ flex:1; }
+  .chap-nav a{ color:var(--accent); text-decoration:none; }
+  .toc{ font-family:-apple-system,"Segoe UI",Helvetica,Arial,sans-serif;
+    font-size:14.5px; background:#fff; border:1px solid var(--line);
+    border-radius:8px; padding:16px 22px; margin:1.5em 0; }
+  .toc ol{ margin:.3em 0; }
+  .toc a{ color:var(--ink); text-decoration:none; }
+  .toc a:hover{ color:var(--accent); text-decoration:underline; }
+  hr.sec{ border:none; border-top:2px solid var(--rule); margin:3.2em 0 0; }
+</style>
+</head>
+<body>
+<main class="wrap">
+
+  <nav class="site-nav" aria-label="Site">
+    <a href="../index.html">Home</a>
+    <a href="#abstract" aria-current="page">This paper (Δ-localization)</a>
+    <a href="https://unverifiednotes.com/en/collatz/04_results.html">Prior: Results</a>
+    <a href="https://unverifiednotes.com/en/collatz/05_negative_results.html">Prior: Negative Results</a>
+    <a href="https://unverifiednotes.com/en/collatz/06_discussion.html">Prior: Discussion</a>
+    <a href="https://github.com/Riku-Tono/collatz-block-diagnostics">GitHub</a>
+  </nav>
+
+  <div class="chapter-mark"><span><span class="num">DELTA</span> &nbsp;measurement paper</span><span>Collatz Δ-localization</span></div>
+
+  <h1 id="abstract">Where does the actual−iid discrepancy become visible?<br>A coordinate-wise localization of Δ in Collatz escape words</h1>
+  <p class="subtitle">A measurement of <em>where</em> Δ is sharpest — not an account of why it is there.</p>
+
+  <div class="stance">
+    <span class="tag">Abstract</span>
+    This paper localizes the actual–iid discrepancy
+    \(\Delta=\mu_{\text{actual}}-\mu_{\text{iid}}\) for finite-integer Collatz escape
+    words. The same Δ is projected onto state, prefix-cylinder, transition, boundary
+    (<code>remaining_K</code>), and <code>remaining_K</code>-chain coordinates. The discrepancy
+    is not concentrated in any single prefix or transition; it localizes more sharply in
+    state coordinates and along the <code>remaining_K</code> boundary distance, with the
+    largest observed \(|\Delta|\) at <code>remaining_K = 32–63</code>. Along the
+    <code>remaining_K</code> chain, mass Δ can be negative while conditional downstream
+    transition Δ is positive, separating mass placement from local transition. The paper
+    reports descriptive statistics only: <code>remaining_K</code> is the band with the
+    largest observed discrepancy, not an asserted cause.
+  </div>
+
+  <div class="toc">
+    <strong>Contents</strong>
+    <ol>
+      <li><a href="#s1">Introduction</a></li>
+      <li><a href="#s2">Coordinate systems</a></li>
+      <li><a href="#s3">State localization</a></li>
+      <li><a href="#s4">Prefix localization</a></li>
+      <li><a href="#s5">Transition localization</a></li>
+      <li><a href="#s6">Boundary localization (remaining_K)</a></li>
+      <li><a href="#s7">remaining_K chain (central result)</a></li>
+      <li><a href="#s8">Coordinate comparison</a></li>
+      <li><a href="#s9">Discussion</a></li>
+      <li><a href="#s10">Limitations</a></li>
+      <li><a href="#s11">Conclusion</a></li>
+    </ol>
+  </div>
+
+  <hr class="sec">
+
+  <!-- ============ 1 ============ -->
+  <div class="chapter-mark" id="s1"><span><span class="num">01</span> &nbsp;Introduction</span><span>Δ-localization</span></div>
+  <h1>1. Introduction</h1>
+
+  <p class="lead">Finite-block diagnostics for Collatz escape words showed where
+  the actual–iid discrepancy can be detected, but did not reproduce it generatively. This
+  study takes the discrepancy itself as the object of observation.</p>
+
+  <p>Throughout this paper, the <em>discrepancy</em> refers to the difference between the
+  observed finite-integer escape-word measure \(\mu_{\text{actual}}\) and the iid 2-adic
+  reference measure \(\mu_{\text{iid}}\). The object of study is that difference itself,</p>
+
+  \[ \Delta(\cdot) \;=\; \mu_{\text{actual}}(\cdot) \;-\; \mu_{\text{iid}}(\cdot). \]
+
+  <p>The single question the paper asks is:</p>
+
+  <div class="stance">
+    <span class="tag">Research question</span>
+    In which coordinate system does Δ appear most sharply?
+    The purpose is not "to explain the cause of Δ" but "to describe where Δ becomes
+    visible."
+  </div>
+
+  <p>The analysis changes coordinates while keeping the same Δ fixed, and reports where
+  the image is sharpest. Candidate theories (latent state, Doob \(h\)-transform, Gibbs
+  measure, or any other mechanism) are outside the scope of this localization
+  measurement.</p>
+
+  <div class="stance warn">
+    <span class="tag">Standing caveat for this paper</span>
+    <p>This is a measurement paper. Every reported quantity is a descriptive statistic, and
+    is split-sample and sampled. For no coordinate do we claim that it <em>produces</em>
+    the discrepancy. In particular <code>remaining_K</code> is, as shown below, the band
+    where the largest \(|\Delta|\) is observed, but we do not interpret it as a source of
+    the discrepancy.</p>
+  </div>
+
+  <p>All numbers in this paper are the quantities already computed in the prior study's
+  auxiliary analysis (the Δ-map of §4.6), retaken under a single, self-contained theme.
+  No new data generation or model fitting is performed.</p>
+
+  <div class="chap-nav"><a href="#abstract">&larr; Abstract</a><span class="spacer"></span><a href="#s2">2. Coordinate systems &rarr;</a></div>
+  <hr class="sec">
+
+  <!-- ============ 2 ============ -->
+  <div class="chapter-mark" id="s2"><span><span class="num">02</span> &nbsp;Coordinate systems</span><span>Δ-localization</span></div>
+  <h1>2. Coordinate systems</h1>
+
+  <p class="lead">The discrepancy is projected onto five coordinates, all defined on
+  the same population of escape words. They differ only in <em>which quantity bins the
+  words</em>; in each coordinate, Δ is read as the per-cell mass difference.</p>
+
+  <h3>state</h3>
+  <p>The state coordinate is the same conditioning cell as in the prior study,</p>
+  \[ \text{state} \;=\; \text{bridge\_cluster} \;\big|\; \text{x\_K\_window} \;\big|\; \text{parity}. \]
+  <p>It bundles path shape (<code>bridge_cluster</code>), valuation depth
+  (<code>x_K_window</code>), and parity into one coarse-grained cell.</p>
+
+  <h3>prefix cylinder</h3>
+  <p>The classical cylinder coordinate that bins words by fixing the first \(L\) symbols
+  of the escape word. Projecting Δ onto prefix cylinders lets us ask whether the
+  discrepancy is visible from an early part of the word, and whether it concentrates in a
+  single initial word-fragment.</p>
+
+  <h3>transition</h3>
+  <p>A coordinate that bins words by the transition (edge) between consecutive blocks, or
+  the branch in prefix growth. Projecting Δ onto transitions lets us ask whether any
+  single local transition carries the bulk of the discrepancy.</p>
+
+  <h3>boundary (remaining_K)</h3>
+  <p>A coordinate of distance to the stopping boundary. <code>remaining_K</code> is a
+  \(K_\tau\)-based boundary distance, here bucketed into bands such as
+  <code>16–31</code>/<code>32–63</code>/<code>64–95</code>/<code>96–127</code>.
+  Projecting Δ onto <code>remaining_K</code> lets us ask whether the discrepancy is
+  organized along distance to the boundary.</p>
+
+  <h3>remaining_K chain</h3>
+  <p>A coordinate treating the boundary not as a single cell but as a <em>chain</em> of
+  boundary-distance bands. Alongside the mass difference in each band (mass Δ), the chain records
+  the difference in the share moving downstream conditioned on being in a given band
+  (conditional transition Δ). The central observation of §7 is that these two Δ's can
+  have opposite signs.</p>
+
+  <table>
+    <caption>Table 2.1 — The five coordinates and what each lets us ask about Δ.</caption>
+    <thead>
+      <tr><th>coordinate</th><th>what it bins by</th><th>what it can ask</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>state</td><td>path shape + valuation depth + parity</td><td>does Δ localize in a coarse-grained cell?</td></tr>
+      <tr><td>prefix</td><td>first \(L\) symbols</td><td>does Δ concentrate in an initial fragment?</td></tr>
+      <tr><td>transition</td><td>inter-block edge / branch</td><td>does a single transition carry Δ?</td></tr>
+      <tr><td>boundary</td><td>boundary distance <code>remaining_K</code></td><td>is Δ organized along boundary distance?</td></tr>
+      <tr><td>chain</td><td>chain of boundary-distance bands</td><td>do mass placement and local transition agree?</td></tr>
+    </tbody>
+  </table>
+
+  <div class="stance">
+    <span class="tag">How to read this</span>
+    §3–§7 project the same Δ onto one coordinate at a time. The comparison is descriptive:
+    it records how concentrated the discrepancy becomes after each projection, and what
+    remains unresolved.
+  </div>
+
+  <div class="chap-nav"><a href="#s1">&larr; 1. Introduction</a><span class="spacer"></span><a href="#s3">3. State localization &rarr;</a></div>
+  <hr class="sec">
+
+  <!-- ============ 3 ============ -->
+  <div class="chapter-mark" id="s3"><span><span class="num">03</span> &nbsp;State localization</span><span>Δ-localization</span></div>
+  <h1>3. State localization</h1>
+
+  <p class="lead">Projected onto the coarse-grained state coordinate, Δ gathers in a
+  small number of cells.</p>
+
+  <h3>Results</h3>
+  <p>Projected onto state coordinates, the discrepancy localizes in a small number of
+  states. The representative stress case singled out in the prior study,</p>
+  \[ \textbf{focus state} \;=\; \texttt{late\_growth | tail\_64\_95 | even}, \]
+  <p>is the state where the actual–iid discrepancy is largest and where sampling is
+  sparsest. In this state the mass carried by actual and by iid differ substantially,
+  while that difference gathers into a few states and nearly cancels in most. The
+  <em>combination</em> of the three coordinates
+  <code>bridge_cluster + x_K_window + parity</code> provided the sharpest localization of
+  Δ.</p>
+
+  <h3>Discussion</h3>
+  <p>State localizes Δ with medium-to-high sharpness. This indicates that path shape
+  (<code>bridge_cluster</code>), valuation depth (<code>x_K_window</code>), and parity all
+  act not singly but as a <em>combination</em>. In other words, Δ is not pinned to "one
+  shape" or "one depth," but appears as their intersection. That the focus state sits in a
+  sparsely sampled band means that, while the image is sharp, it also stands on a thin
+  mass.</p>
+
+  <h3>Open questions</h3>
+  <p>State is a coarse-grained coordinate; whether localization sharpens or the image
+  diffuses when each of the three coordinates is further subdivided is not measured here.
+  This remains a question of coordinate resolution.</p>
+
+  <div class="chap-nav"><a href="#s2">&larr; 2. Coordinate systems</a><span class="spacer"></span><a href="#s4">4. Prefix localization &rarr;</a></div>
+  <hr class="sec">
+
+  <!-- ============ 4 ============ -->
+  <div class="chapter-mark" id="s4"><span><span class="num">04</span> &nbsp;Prefix localization</span><span>Δ-localization</span></div>
+  <h1>4. Prefix localization</h1>
+
+  <p class="lead">In prefix cylinders, Δ is already visible early but remains spread
+  over many initial fragments.</p>
+
+  <h3>Results</h3>
+  <p>Projected onto prefix cylinders, two things happen at once. First, the discrepancy
+  is <em>visible from the early prefix on</em> — fixing only the very beginning of the
+  word already gives a non-zero actual–iid mass difference. Second, however, the
+  discrepancy <em>does not concentrate in a single prefix</em>. Lengthening the prefix
+  window does not draw Δ into one particular initial fragment; it remains spread thinly
+  across many cylinders.</p>
+
+  <h3>Discussion</h3>
+  <p>The sharpness of Δ in the prefix coordinate is low. That the difference is visible
+  early shows the discrepancy is not a tail-only phenomenon, but that it does not
+  concentrate in a single prefix shows the prefix cylinder is not a good coordinate for
+  <em>binding</em> Δ. Δ does not appear as excess mass of words with a fixed opening.</p>
+
+  <h3>Open questions</h3>
+  <p>How far Δ can be bound by longer prefixes, or by products of prefix with other
+  coordinates, is outside the present scope. We record only the two-sidedness here:
+  visible early, but not concentrated.</p>
+
+  <div class="chap-nav"><a href="#s3">&larr; 3. State localization</a><span class="spacer"></span><a href="#s5">5. Transition localization &rarr;</a></div>
+  <hr class="sec">
+
+  <!-- ============ 5 ============ -->
+  <div class="chapter-mark" id="s5"><span><span class="num">05</span> &nbsp;Transition localization</span><span>Δ-localization</span></div>
+  <h1>5. Transition localization</h1>
+
+  <p class="lead">In the transition coordinate, Δ does not collapse onto any single
+  edge or branch.</p>
+
+  <h3>Results</h3>
+  <p>Projected onto transitions (inter-block edges / branches in prefix growth), <em>no
+  single transition has explanatory power</em>. Δ is not collapsed onto any one edge or
+  branch; the discrepancy is distributed across many transitions. Whichever local
+  transition we pick out, on its own it carries only a small part of the total
+  discrepancy.</p>
+
+  <h3>Discussion</h3>
+  <p>The sharpness of Δ in the transition coordinate is low. This points the same way as
+  the prefix result: Δ is not pinned to the microscopic units of "a local word-fragment"
+  or "a local transition." However finely we examine local transitions, the discrepancy
+  does not reside locally; it is distributed.</p>
+
+  <p>This finding also foreshadows the chain analysis of §7. The negative observation that
+  a single transition has no explanatory power suggests, from the coordinate side, that
+  the discrepancy may appear not in <em>transitions themselves</em> but in the <em>mass
+  placement</em> reached after transitions accumulate. We record this as an observation
+  only and do not read it as a mechanism.</p>
+
+  <h3>Open questions</h3>
+  <p>Whether higher-order transitions (two or more steps) or combinations of transitions
+  can bind Δ is not measured. The claim here is limited to the low explanatory power of a
+  <em>single</em> transition.</p>
+
+  <div class="chap-nav"><a href="#s4">&larr; 4. Prefix localization</a><span class="spacer"></span><a href="#s6">6. Boundary localization &rarr;</a></div>
+  <hr class="sec">
+
+  <!-- ============ 6 ============ -->
+  <div class="chapter-mark" id="s6"><span><span class="num">06</span> &nbsp;Boundary localization</span><span>Δ-localization</span></div>
+  <h1>6. Boundary localization (remaining_K)</h1>
+
+  <p class="lead">The boundary-distance coordinate <code>remaining_K</code> is one of
+  the coordinates in which Δ localizes most sharply.</p>
+
+  <h3>Results</h3>
+  <p>Projected onto <code>remaining_K</code> (distance to the stopping boundary), the
+  discrepancy is organized along boundary distance. The largest \(|\Delta|\) appears at
+  <strong><code>remaining_K = 32–63</code></strong>. Thinness continues into
+  <code>remaining_K = 64–95</code> and <code>96–127</code>, but the largest absolute mass
+  difference remains at 32–63.</p>
+
+  <table>
+    <caption>Table 6.1 — Mass difference along the <code>remaining_K</code> boundary
+    distance (long words with a defined final state). \(\Delta=\) actual − iid. Values
+    from the §4.6 auxiliary analysis.</caption>
+    <thead>
+      <tr><th>remaining_K</th><th class="num">actual</th><th class="num">iid</th><th class="num">\(\Delta\)</th><th class="num">ratio</th><th class="num">L1 share</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>32–63</td><td class="num">1.959532</td><td class="num">2.139743</td><td class="num neg">−0.180211</td><td class="num">0.916</td><td class="num">38.57%</td></tr>
+      <tr><td>64–95</td><td class="num">0.266435</td><td class="num">0.341662</td><td class="num neg">−0.075227</td><td class="num">0.780</td><td class="num">16.10%</td></tr>
+      <tr><td>96–127</td><td class="num">0.018644</td><td class="num">0.031704</td><td class="num neg">−0.013059</td><td class="num">0.588</td><td class="num">2.80%</td></tr>
+    </tbody>
+  </table>
+
+  <p>In all three bands \(\Delta\) is negative: the mass actual carries in each band is
+  <em>thinner</em> than iid. The largest absolute mass difference is at 32–63
+  (\(|\Delta|=0.180211\), L1 share 38.57%); the lowest ratio is at 96–127 (0.588), but the
+  mass and L1 share of that band are small. So the "band with the largest observed
+  discrepancy" is 32–63 by absolute mass difference and 96–127 by ratio — two coexisting
+  readings. We take absolute mass difference as the criterion and call 32–63 the band with
+  the largest observed discrepancy.</p>
+
+  <h3>Discussion</h3>
+  <p>The sharpness of Δ in the boundary coordinate is high. The discrepancy, distributed
+  in the prefix and transition coordinates, reads as a clear band structure once
+  rearranged along the single axis of boundary distance. This is an observation of the
+  effectiveness of <code>remaining_K</code> as a coordinate that binds Δ.</p>
+
+  <div class="stance warn">
+    <span class="tag">Scope of this observation</span>
+    <code>remaining_K = 32–63</code> should be read as the band with the largest observed
+    discrepancy between finite-integer escape words and the iid reference, not as a
+    <em>source</em> of the discrepancy. We keep it as "the largest observed discrepancy
+    band." We make no claim that <code>remaining_K</code> <em>produces</em> Δ.
+  </div>
+
+  <h3>Open questions</h3>
+  <p>How the largest-discrepancy band moves under different binnings (here roughly dyadic
+  windows), and whether a finer boundary-distance decomposition reveals structure within
+  32–63, is not measured here.</p>
+
+  <div class="chap-nav"><a href="#s5">&larr; 5. Transition localization</a><span class="spacer"></span><a href="#s7">7. remaining_K chain &rarr;</a></div>
+  <hr class="sec">
+
+  <!-- ============ 7 ============ -->
+  <div class="chapter-mark" id="s7"><span><span class="num">07</span> &nbsp;remaining_K chain</span><span>central result</span></div>
+  <h1>7. remaining_K chain</h1>
+
+  <p class="lead">The boundary coordinate can also be read as a <em>chain</em> of
+  boundary-distance bands. In that chain, mass placement and local transition separate.</p>
+
+  <h3>Results</h3>
+  <p>Along the <code>remaining_K</code> chain we measure two distinct Δ's.</p>
+  <ul>
+    <li><strong>mass Δ</strong>: the mass difference in a band (the same direction as
+    Table 6.1 in §6). It is <span class="neg">negative</span> in the leading bands.</li>
+    <li><strong>conditional transition Δ</strong>: the difference in the share moving to a
+    downstream band, conditioned on being in a given band. There are bands where it is
+    <span class="pos">positive</span>.</li>
+  </ul>
+
+  <div class="flow">
+    <div><span class="lab">band mass</span>actual carries less mass than iid<br><strong class="neg">mass Δ &lt; 0</strong></div>
+    <div><span class="lab">conditional move</span>the downstream share can be stronger<br><strong class="pos">conditional Δ &gt; 0</strong></div>
+    <div><span class="lab">result</span>mass placement and local transition have opposite signs</div>
+  </div>
+
+  <p>In two concrete cases the signs of the two diverge:</p>
+
+  <table>
+    <caption>Table 7.1 — Mass Δ and conditional transition Δ along the
+    <code>remaining_K</code> chain. Values from the §4.6 auxiliary analysis.</caption>
+    <thead>
+      <tr><th>transition</th><th class="num">mass Δ</th><th class="num">conditional Δ</th><th>sign</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><code>64-95 → 32-63</code></td><td class="num neg">−0.006059</td><td class="num pos">+0.007861</td><td>opposite</td></tr>
+      <tr><td><code>32-63 → 16-31</code></td><td class="num neg">−0.009262</td><td class="num pos">+0.004618</td><td>opposite</td></tr>
+    </tbody>
+  </table>
+
+  <p>That is, in these bands the mass actual carries is thinner than iid (mass Δ
+  negative), yet the share moving downstream, conditioned on being in the band, is not
+  necessarily weak (conditional Δ positive). Carrying little mass and having a weak
+  conditional transition do not coincide here.</p>
+
+  <h3>Discussion</h3>
+  <p>This separation of signs shows that <em>local transition</em> and <em>mass
+  placement</em> are distinct. If the discrepancy were simply a local-transition
+  malfunction — "the transition from a band downstream is weak" — mass Δ and conditional Δ
+  would move in the same direction. They do not: the conditional transition is, if
+  anything, on the strong side, while the band's mass is thin. The observed discrepancy is
+  therefore better read not as an excess or deficit of transition probability, but as a
+  difference in <em>where mass is placed</em> along the <code>remaining_K</code> chain.</p>
+
+  <p>This is consistent with the finding of §5 — that a single transition has no
+  explanatory power. Examined finely, local transitions do not house the discrepancy, yet
+  viewed as per-band mass placement it appears sharply. The chain is the coordinate that
+  shows this "placement, not transition" image most clearly, in the form of a sign
+  mismatch.</p>
+
+  <div class="stance warn">
+    <span class="tag">Not to be read as a mechanism</span>
+    This section reports the <em>observation</em> that mass placement and local transition
+    do not agree. It does not identify this as a mechanism — latent state, conditioned
+    process, boundary conditioning, or otherwise. The sign difference between mass Δ and
+    conditional Δ is not evidence telling such mechanisms apart; it is part of the answer
+    to this paper's question of where Δ becomes sharp.
+  </div>
+
+  <h3>Open questions</h3>
+  <p>How the sign difference distributes across the whole chain (more bands, deeper
+  chains), and how systematic the positive-conditional-Δ bands are, is recorded here only
+  in two cases. A systematic measurement varying chain length and band resolution is a
+  possible continuation.</p>
+
+  <div class="chap-nav"><a href="#s6">&larr; 6. Boundary localization</a><span class="spacer"></span><a href="#s8">8. Coordinate comparison &rarr;</a></div>
+  <hr class="sec">
+
+  <!-- ============ 8 ============ -->
+  <div class="chapter-mark" id="s8"><span><span class="num">08</span> &nbsp;Coordinate comparison</span><span>Δ-localization</span></div>
+  <h1>8. Coordinate comparison</h1>
+
+  <p class="lead">The projections of §3–§7 can be compared by how concentrated Δ
+  becomes in each coordinate.</p>
+
+  <h3>Results</h3>
+  <table>
+    <caption>Table 8.1 — How Δ appears by coordinate. Sharpness is a qualitative label for
+    the clarity of localization.</caption>
+    <thead>
+      <tr><th>coordinate</th><th>sharpness</th><th>main finding</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>block score</td><td>—</td><td>diagnostic signal present, generation not reproduced (prior §4.1–4.4)</td></tr>
+      <tr><td>state</td><td><strong>medium–high</strong></td><td>localized by <code>bridge_cluster + x_K_window + parity</code></td></tr>
+      <tr><td>prefix</td><td>low</td><td>visible early but not concentrated in a single prefix</td></tr>
+      <tr><td>transition</td><td>low</td><td>not collapsed onto a single edge / branch</td></tr>
+      <tr><td>boundary remaining_K</td><td><strong>high</strong></td><td>largest \(|\Delta|\) at 32–63 (largest observed discrepancy band)</td></tr>
+      <tr><td>remaining_K chain</td><td><strong>high</strong></td><td>mass Δ and conditional Δ have opposite signs; visible as placement</td></tr>
+    </tbody>
+  </table>
+
+  <div class="flow">
+    <div><span class="lab">coordinates that disperse</span>prefix, transition: Δ spreads thinly over many cells and does not gather into a single cell.</div>
+    <div><span class="lab">coordinates that localize</span>state, boundary, chain: Δ gathers sharply into a few coarse-grained cells / boundary bands.</div>
+  </div>
+
+  <h3>Discussion</h3>
+  <p>Changing coordinates changes the concentration of the same Δ. In the local
+  coordinates of prefix and transition, Δ disperses over many cells. In the coarse-grained
+  state coordinate and the boundary-distance <code>remaining_K</code> coordinate, the
+  concentration evidence in Table 8.1 is stronger: Δ gathers into a few cells or bands.
+  The chain sharpens the boundary picture further by showing a sign mismatch between mass
+  placement and local transition.</p>
+
+  <p>This comparison is itself the paper's main result. Asked "where is Δ," one can answer
+  that it lies not in local word-fragments (prefix, transition) but in coarse-grained
+  state and boundary distance (boundary / chain).</p>
+
+  <h3>Open questions</h3>
+  <p>"Sharpness" is a qualitative label here. We do not quantify sharpness on a single
+  scale across AUC, L1 share, ratio, and the like. Comparing sharpness across coordinates
+  on a common scale is a possible continuation.</p>
+
+  <div class="chap-nav"><a href="#s7">&larr; 7. remaining_K chain</a><span class="spacer"></span><a href="#s9">9. Discussion &rarr;</a></div>
+  <hr class="sec">
+
+  <!-- ============ 9 ============ -->
+  <div class="chapter-mark" id="s9"><span><span class="num">09</span> &nbsp;Discussion</span><span>Δ-localization</span></div>
+  <h1>9. Discussion</h1>
+
+  <p class="lead">The coordinate dependence of Δ is itself informative: the
+  discrepancy becomes sharp after coarse-graining by state and boundary distance, not after
+  isolating local word-fragments or single transitions.</p>
+
+  <p>The paper's observations gather into one careful description:</p>
+
+  <div class="stance">
+    <span class="tag">The paper's interpretation</span>
+    Δ does not concentrate in local word-fragments (prefix) or single transitions
+    (transition); it appears as <em>mass placement</em> over the state space. That is, the
+    difference between actual and iid is shown more sharply in "which state / which
+    boundary-distance band the mass is placed in" than in "which word-fragment is written"
+    or "which transition is taken."
+  </div>
+
+  <p>This reading is supported by the two negative/separating observations of §5 and §7.
+  That a single transition has no explanatory power (§5) shows the discrepancy does not
+  reside in local transitions. The sign difference between mass Δ and conditional Δ in the
+  chain (§7) shows that mass placement can differ independently of local transition. Taken
+  together, the image is that the location of Δ is placement, not transition.</p>
+
+  <div class="stance warn">
+    <span class="tag">Scope of interpretation</span>
+    The results identify coordinate localization rather than a mechanism. They do not by
+    themselves distinguish latent-state, Doob \(h\)-transform, Gibbs, conditioned-process,
+    or other explanations. "Appears as mass placement" is therefore a coordinate-level
+    description: <code>remaining_K = 32–63</code> is the largest observed discrepancy band,
+    with no further causal implication assigned here.
+  </div>
+
+  <p>The coordinate dependence supplies a boundary for later mechanisms. Any proposed
+  account of the actual–iid discrepancy should explain why the discrepancy is diffuse in
+  prefix and transition coordinates, but concentrated in state and boundary coordinates,
+  especially as mass placement along the <code>remaining_K</code> chain.</p>
+
+  <div class="chap-nav"><a href="#s8">&larr; 8. Coordinate comparison</a><span class="spacer"></span><a href="#s10">10. Limitations &rarr;</a></div>
+  <hr class="sec">
+
+  <!-- ============ 10 ============ -->
+  <div class="chapter-mark" id="s10"><span><span class="num">10</span> &nbsp;Limitations</span><span>Δ-localization</span></div>
+  <h1>10. Limitations</h1>
+
+  <p class="lead">The claims are limited to coordinate-wise descriptive statistics.</p>
+
+  <ul>
+    <li><strong>Descriptive statistics only.</strong> The reported quantities are
+    coordinate-wise projections of the actual–iid mass difference Δ, not a generative model
+    or probabilistic mechanism.</li>
+    <li><strong>They are sample-based.</strong> Every quantity is split-sample and
+    sampled. In particular the focus state and the deep <code>remaining_K</code> bands
+    that show the strongest localization sit in sparsely sampled regions. Sampling error is
+    not formally quantified.</li>
+    <li><strong>No cause is identified.</strong> The largest observed discrepancy band
+    (<code>remaining_K = 32–63</code>) is not identified as a source of the discrepancy. The
+    chain sign difference is recorded as an observation, not as evidence of a mechanism.</li>
+    <li><strong>No new mechanism is proposed.</strong> The paper asserts no Collatz
+    mechanism — latent state, \(h\)-transform, Gibbs measure, conditioned process, or
+    otherwise.</li>
+    <li><strong>Coordinate resolution is coarse.</strong> The three state coordinates and
+    the <code>remaining_K</code> bands are coarse decompositions, and finer coordinates
+    could change the sharpness of localization. The chain sign difference is recorded in
+    only two cases.</li>
+    <li><strong>"Sharpness" is qualitative.</strong> We do not quantify the clarity of
+    localization across coordinates on a common scale. The coordinate comparison (§8)
+    should be read under this limitation.</li>
+  </ul>
+
+  <div class="chap-nav"><a href="#s9">&larr; 9. Discussion</a><span class="spacer"></span><a href="#s11">11. Conclusion &rarr;</a></div>
+  <hr class="sec">
+
+  <!-- ============ 11 ============ -->
+  <div class="chapter-mark" id="s11"><span><span class="num">11</span> &nbsp;Conclusion</span><span>Δ-localization</span></div>
+  <h1>11. Conclusion</h1>
+
+  <p class="lead">The paper provides a coordinate-wise map of where the actual–iid
+  discrepancy becomes visible.</p>
+
+  <div class="stance">
+    <span class="tag">Conclusion</span>
+    The actual–iid discrepancy (\(\Delta=\mu_{\text{actual}}-\mu_{\text{iid}}\)) is not
+    concentrated in local word-fragments or single transitions; it localizes most sharply
+    in state coordinates and in the <code>remaining_K</code> boundary coordinate. The
+    largest absolute mass difference is observed at <code>remaining_K = 32–63</code> (the
+    largest observed discrepancy band). And along the <code>remaining_K</code> chain there
+    are bands where the mass Δ is negative while the conditional downstream transition Δ is
+    positive — local transition and mass placement are distinct.
+  </div>
+
+  <p>The conclusion follows from one controlled comparison: the same Δ is observed
+  while the coordinate system changes. This paper provides a coordinate-wise map of the
+  actual–iid discrepancy that future mechanistic studies can build upon. Natural
+  continuations are re-measurement at finer coordinate resolution, a systematic study of
+  the chain sign difference, and a common quantitative scale for localization
+  sharpness.</p>
+
+  <nav class="site-nav" aria-label="Site">
+    <a href="../index.html">Home</a>
+    <a href="#abstract" aria-current="page">This paper (Δ-localization)</a>
+    <a href="https://unverifiednotes.com/en/collatz/04_results.html">Prior: Results</a>
+    <a href="https://unverifiednotes.com/en/collatz/05_negative_results.html">Prior: Negative Results</a>
+    <a href="https://unverifiednotes.com/en/collatz/06_discussion.html">Prior: Discussion</a>
+    <a href="https://github.com/Riku-Tono/collatz-block-diagnostics">GitHub</a>
+  </nav>
+
+
+</main>
+</body>
+</html>
