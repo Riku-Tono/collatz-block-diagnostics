@@ -35,10 +35,10 @@
   <h2>4.1 Test 1 — block anomaly score (B3/B4) <span class="chip b">class B</span></h2>
 
   <p>In the focus state <code>late_growth | tail_64_95 | even</code>, the \(B_4\)
-  score's actual median (\(-0.047\)) sits above the iid median (\(-0.060\)), and the
+  score's actual median (\(-0.047\)) lies above the iid median (\(-0.060\)), and the
   weighted AUC separating high-scoring actual words from iid is \(0.719\). Within that
   state the lowest \(B_4\)-score decile has survival ratio \(S = 0.035\) and the
-  highest decile \(S = 1.806\) — a clear monotonic trend, on a thin state.</p>
+  highest decile \(S = 1.806\) — a clear monotonic trend in this sparsely sampled state.</p>
 
   <p>Against the full logistic baseline, the block score adds a small but real amount
   of separation, and crucially does <em>not</em> explain away the structural covariates:</p>
@@ -56,8 +56,7 @@
   </table>
 
   <p>Adding \(B_4\) moves AUC by \(0.0236\). The bridge coefficient falls by only
-  \(0.0162\); the parity coefficient does not fall at all (it rises, a reduction of
-  \(-0.0586\)). Test 1 is therefore classified as <strong>B — "B4 score helps but
+  \(0.0162\); the parity coefficient does not decrease; instead, it increases by \(0.0586\). Test 1 is therefore classified as <strong>B — "B4 score helps but
   bridge/parity remain strong"</strong>, with the explicit caveat that this is a
   split-sample, sampled diagnostic, not an exact aggregation proof.</p>
 
@@ -68,7 +67,7 @@
 
   <p>The discriminative signal increases monotonically with block length, by both the
   marginal-score AUC and the \(+\)score logistic AUC, while the logistic base AUC
-  stays at chance (\(0.5025\)):</p>
+  remains at chance level (\(0.5025\)):</p>
 
   <table>
     <caption>Table 4.2 — Test 2 AUC by block length \(L\).</caption>
@@ -86,9 +85,8 @@
   <p>The best \(+\)score logistic AUC is \(0.5643\) at \(L=6\); the gain from \(L=3\)
   to \(L=6\) is \(0.0280\). But the residual gap does not close: at \(L=6\) the bridge
   absolute residual is \(1.1011\) and the parity residual is \(0.3749\). In the focus
-  state at \(L=6\), the lowest score decile has \(S = 0.117\), the highest
-  finite-ratio decile \(S = 38.091\), and the top decile has <em>zero</em> iid mass —
-  the most pronounced effect is also the most sparsely sampled.</p>
+  state at \(L=6\), the lowest score decile has \(S = 0.117\), the highest decile with finite survival ratio \(S = 38.091\), and the top decile has <em>zero</em> iid mass —
+  the strongest effect is also observed in the sparsest region.</p>
 
   <p>Overall, Test 2 is therefore classified as <strong>B — "AUC grows but residual remains"</strong>:
   longer blocks discriminate better but do not remove the bridge/parity structure.</p>
@@ -98,23 +96,21 @@
 
   <h2>4.3 Test 3 — finite-block reweighting <span class="chip c">class C</span></h2>
 
-  <p>Reweighting iid words by \(2^{\alpha S_L}\) is the first generative attempt. The
-  best full-state fit is mildly damped <em>short</em> blocks — \(L=3\), \(\alpha=0.25\),
+  <p>Reweighting iid words by \(2^{\alpha S_L}\) is the first generative attempt. The best full-state fit is obtained with mildly damped <em>short</em> blocks — \(L=3\), \(\alpha=0.25\),
   RMSE \(0.000440978\), JS \(0.000921815\). Longer or stronger reweighting is worse,
   not better: at \(L=6\) the best choice is \(\alpha = 0.0\) (no reweighting at all),
   RMSE \(0.000642649\).</p>
 
   <p>The focus state shows the overcorrection directly. Its best reweighting (\(L=6\),
   \(\alpha=0.5\)) still <em>under</em>-predicts the mass — actual \(0.00092052\) vs
-  predicted \(0.00029821\) — and pushing to \(\alpha=1\) drives the modelled
+  predicted \(0.00029821\) — and increasing \(\alpha\) to \(1\) drives the modelled
   focus-state survival down to \(0.00416667\), against an actual survival of
   \(0.472461\). At the global
   best fit the bridge RMSE is \(0.000427051\) and the parity RMSE \(0.00262763\).</p>
 
   <p>Taken together, these results correspond to <strong>C — "reweighting overcorrects or is not
   generative"</strong>: the small improvement is entirely from damped short-block
-  reweighting; longer raw reweighting is over-sharp — useful diagnostically, weak as a
-  generator.</p>
+  reweighting; longer raw reweighting is over-sharp — useful diagnostically, weak as a generative model.</p>
 
   <p><strong>Takeaway.</strong> Short, mildly damped reweighting can improve the
   aggregate fit, but stronger block reweighting overcorrects rather than generating
@@ -123,7 +119,7 @@
   <h2>4.4 Test 4 — maximum-entropy block projection <span class="chip c">class C</span></h2>
 
   <p>The second generative attempt replaces heuristic reweighting with an approximate
-  regularized IPF that matches block marginals. It does not beat the simpler baseline:
+  regularized IPF that matches block marginals. It does not outperform the simpler baseline:
   the best maximum-entropy fit (\(L=3\), regularization \(0.75\)) has RMSE
   \(0.000493147\) and JS \(0.000868073\), <em>worse</em> than the best raw/damped
   reweighting RMSE of \(0.000440978\).</p>
@@ -136,7 +132,7 @@
   </figure>
 
   <p>Regularization does reduce the parity residual for the longer blocks — at
-  regularization \(0\) the \(L=5\) and \(L=6\) parity residuals start high and fall
+  regularization \(0\) the \(L=5\) and \(L=6\) parity residuals begin at high values and decrease
   toward the \(L=3/L=4\) level as regularization increases — but this reflects
   regularization pulling the projection toward the damped baseline, not a new
   structure being captured.</p>
@@ -156,8 +152,7 @@
   <figure>
     <img src="figures/focus_state_maxent_fit.svg" alt="Line chart of focus-state predicted survival versus regularization for L=3,4,5,6.">
     <figcaption><span class="fignum">Figure 3.</span> Focus-state predicted survival
-    vs. regularization, by block length. The single-cell fit can be brought near the
-    actual value, but only under regularization that is not justified by the global
+    vs. regularization, by block length. The single-cell fit can be brought close to the actual value, but only under regularization that is not justified by the global
     RMSE.</figcaption>
   </figure>
 
@@ -184,8 +179,79 @@
   </table>
 
   <p>Diagnostic tests are classified as B, whereas the generative tests are classified
-  as C. The next section reads these four verdicts together and says exactly what
-  the letters mean.</p>
+  as C. The next section reads these four verdicts together and explains the meaning of the letter grades.</p>
+
+  <h2>4.6 Auxiliary analysis: the actual−iid Δ-map</h2>
+
+  <p>As a descriptive statistic, this section reports the actual–iid mass difference</p>
+
+  \[ \Delta(\cdot) \;=\; \mu_{\text{actual}}(\cdot) \;-\; \mu_{\text{iid}}(\cdot) \]
+
+  <p>projected onto several coordinates. This is not a new generative model; it is a
+  diagnostic quantity that supplements <em>where</em> the discrepancy detected by
+  Tests 1–4 is localized. We project Δ onto state, prefix cylinder, transition, and
+  boundary / <code>remaining_K</code> coordinates.</p>
+
+  <p>In state coordinates, the combination
+  <code>bridge_cluster + x_K_window + parity</code> provides a sharp localization of Δ. In prefix
+  cylinders the difference is visible from the early prefix on, but lengthening the
+  window does not concentrate it in a single prefix. Viewed in terms of transition structure and prefix growth, Δ likewise does not collapse onto any single edge or branch.</p>
+
+  <p>In boundary coordinates, <code>remaining_K</code> provides the sharpest localization of Δ, and
+  the largest \(|\Delta|\) appears at <code>remaining_K = 32–63</code>. The thinness
+  extends into <code>remaining_K = 64–95</code> and <code>96–127</code>, but the
+  largest absolute mass difference remains at 32–63 (96–127 has the lowest ratio,
+  while its mass and L1 share are small).</p>
+
+  <table>
+    <caption>Table 4.4 — Mass difference along the <code>remaining_K</code> boundary
+    distance (ALL long words with a defined final state). \(\Delta = \) actual − iid.</caption>
+    <thead>
+      <tr><th>remaining_K</th><th class="num">actual</th><th class="num">iid</th><th class="num">\(\Delta\)</th><th class="num">ratio</th><th class="num">L1 share</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>32–63</td><td class="num">1.959532</td><td class="num">2.139743</td><td class="num">−0.180211</td><td class="num">0.916</td><td class="num">38.57%</td></tr>
+      <tr><td>64–95</td><td class="num">0.266435</td><td class="num">0.341662</td><td class="num">−0.075227</td><td class="num">0.780</td><td class="num">16.10%</td></tr>
+      <tr><td>96–127</td><td class="num">0.018644</td><td class="num">0.031704</td><td class="num">−0.013059</td><td class="num">0.588</td><td class="num">2.80%</td></tr>
+    </tbody>
+  </table>
+
+  <p>In the leading bands (32–63, 64–95, 96–127) the mass delta is negative, while the
+  conditional downstream transition delta can be positive. For instance
+  <code>64-95 -> 32-63</code> has mass delta \(-0.006059\) but conditional delta
+  \(+0.007861\), and <code>32-63 -> 16-31</code> has mass delta \(-0.009262\) but
+  conditional delta \(+0.004618\). This separates two statements: actual carries little mass in the band, yet conditioned on being in the band its share moving downstream is
+  not necessarily weak. It is therefore consistent with a difference in how mass is placed along the
+  <code>remaining_K</code> chain between actual and iid, rather than with a simple
+  local-transition malfunction.</p>
+
+  <table>
+    <caption>Table 4.5 — How Δ appears by coordinate (auxiliary analysis).</caption>
+    <thead>
+      <tr><th>coordinate</th><th>sharpness</th><th>main finding</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>block score</td><td>—</td><td>diagnostic signal present, generation not reproduced (§4.1–4.4)</td></tr>
+      <tr><td>state</td><td>medium–high</td><td>localized by <code>bridge_cluster + x_K_window + parity</code></td></tr>
+      <tr><td>prefix</td><td>low</td><td>visible early but not concentrated in a single prefix</td></tr>
+      <tr><td>transition</td><td>low</td><td>not collapsed onto a single edge / branch</td></tr>
+      <tr><td>boundary remaining_K</td><td>high</td><td>largest \(|\Delta|\) at 32–63 (the band with the largest observed discrepancy)</td></tr>
+    </tbody>
+  </table>
+
+  <div class="stance warn">
+    <span class="tag">Scope of this auxiliary analysis</span>
+    The Δ-map is a descriptive statistic. It does not identify a new Collatz mechanism,
+    and it does not establish that <code>remaining_K</code> is causal.
+    <code>remaining_K = 32–63</code> should be read as the band where the difference
+    between finite-integer escape words and the iid reference is largest in observation
+    (the band with the largest observed discrepancy), not as a generating source of the discrepancy.
+  </div>
+
+  <p><strong>Takeaway.</strong> The residual is not concentrated in a single prefix or
+  transition cylinder; it localizes more sharply in state coordinates and in the
+  <code>remaining_K</code> boundary distance, with the band showing the largest observed discrepancy at
+  <code>remaining_K = 32–63</code>.</p>
 
   <nav class="chap-nav">
     <a href="03_method.html">&larr; 3. Method</a>

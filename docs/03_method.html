@@ -27,9 +27,9 @@
 
   <h1>States, scores, and the four tests</h1>
 
-  <p class="lead">All four experiments share one conditioning scheme and one block
-  score, defined in <code>collatz_block_anomaly_score.py</code> and imported
-  downstream. Defining them once is what makes the tests comparable.</p>
+  <p class="lead">All four experiments share the same conditioning scheme and the same block
+  score, defined in <code>collatz_block_anomaly_score.py</code> and reused
+  throughout the subsequent analyses. Defining them once is what makes the tests comparable.</p>
 
   <h2>3.1 Conditioning cells (states)</h2>
 
@@ -37,7 +37,7 @@
 
   \[ \text{state} \;=\; \text{bridge\_cluster} \;\big|\; \text{x\_K\_window} \;\big|\; \text{parity}, \]
 
-  <p>built from three coordinates:</p>
+  <p>built from three components:</p>
 
   <ul>
     <li><strong>bridge_cluster</strong> — a path-shape label. Let \(x(u)\) be the
@@ -59,21 +59,20 @@
   \[ \textbf{focus state} \;=\; \texttt{late\_growth | tail\_64\_95 | even}, \]
 
   <p>a deep-tail, late-growth, even state where the actual–iid discrepancy is largest
-  and the sampling is thinnest.</p>
+  and sampling is sparsest.</p>
 
   <h2>3.2 Block log-ratio score</h2>
 
   <p>On the <em>train</em> split, for each \((L, \text{state}, u\text{-bin},
-  \text{block})\) we estimate the smoothed block probabilities for the actual and iid samples and
-  store a log-ratio,</p>
+  \text{block})\) we estimate the smoothed block probabilities for the actual and iid samples
+  and compute and store a log-ratio,</p>
 
   \[ s_L(\text{state}, u, \text{block}) \;=\; \log_2 \frac{p^{\text{actual}}(\text{block})}{p^{\text{iid}}(\text{block})}, \]
 
   <p>where \(u\) is a decile bin of the within-word position. Smoothing is add-\(\alpha\)
   (\(\alpha = 0.5\)) over the \(3^L\) blocks in the anomaly test, and a uniform
   mixture \((1-\lambda)\,\hat p + \lambda/3^L\) with \(\lambda = 0.02\) in the
-  renormalization and projection tests. A state is kept (<span class="term">stable</span>)
-  only if its train iid mass exceeds \(10^{-7}\).</p>
+  renormalization and projection tests. A state is considered stable only if its train iid mass exceeds \(10^{-7}\).</p>
 
   <p>A word's <span class="term">block score</span> at length \(L\) sums the stored
   log-ratios over its sliding windows on the <em>test</em> split:</p>
@@ -104,22 +103,22 @@
 
   <h3>Test 1 — block anomaly score</h3>
   <p>Fit a weighted logistic classifier (actual vs iid) on baseline covariates, then
-  add the block score and measure the change in weighted AUC, while assessing whether
+  add the block score and assess the increase in weighted AUC, while checking whether
   the bridge and parity coefficients are absorbed.</p>
 
   <h3>Test 2 — block-length renormalization</h3>
-  <p>Repeat the construction for \(L=3,\dots,6\) and track the marginal-score AUC,
+  <p>Repeat the scoring procedure for \(L=3,\dots,6\) and track the marginal-score AUC,
   the \(+\)score logistic AUC, and the bridge/parity residual coefficients as
   functions of \(L\). Also track per-decile survival ratios in the focus state.</p>
 
   <h3>Test 3 — finite-block reweighting</h3>
   <p>Reweight each iid test word by \(2^{\alpha S_L}\) for
-  \(\alpha \in \{0, 0.25, 0.5, 0.75, 1\}\), rescale the total predicted mass to the actual
+  \(\alpha \in \{0, 0.25, 0.5, 0.75, 1\}\), rescale the predicted mass so that its total matches the actual
   total over stable states, and compare predicted vs actual state-mass distributions
   by RMSE and Jensen–Shannon divergence.</p>
 
   <h3>Test 4 — maximum-entropy block projection</h3>
-  <p>Run an approximate, regularized IPF / exponential-family update on the iid test
+  <p>Run an approximate regularized IPF (exponential-family) update on the iid test
   measure to match block marginals, for \(L=3,\dots,6\) and regularization
   \(\{0, 0.5, 0.75, 0.9\}\) (two iterations, evaluation capped at \(40{,}000\) iid
   words). Compare the projected state distribution to actual, and to the best
@@ -129,7 +128,7 @@
     <span class="tag">Scope of the projection</span>
     Test 4 is an <em>approximate</em> projection, not an exact IPF solution over all words.
     It is built to distinguish an over-counted raw product from a regularized
-    finite-block exponential family — not to certify a maximum-entropy fit.
+    finite-block exponential family — rather than to certify a maximum-entropy fit.
   </div>
 
   <h2>3.4 Reported quantities</h2>
@@ -145,6 +144,16 @@
     <li><strong>bridge / parity residual</strong> — magnitude of the bridge-cluster
     and parity coefficients that remain after the block score is included.</li>
   </ul>
+
+  <p><strong>Auxiliary Δ.</strong> In §4.6 we additionally report, as a descriptive
+  statistic, the state-mass difference</p>
+
+  \[ \Delta(\text{state}) \;=\; \mu_{\text{actual}}(\text{state}) \;-\; \mu_{\text{iid}}(\text{state}), \]
+
+  <p>projected onto state, prefix cylinder, transition, and boundary / <code>remaining_K</code>
+  coordinates. Δ is a descriptive statistic for the actual–iid mass difference, not a
+  generative model; it is used only to identify <em>where</em> the discrepancy detected
+  in §4.1–4.4 is localized.</p>
 
   <nav class="chap-nav">
     <a href="02_background.html">&larr; 2. Background</a>
