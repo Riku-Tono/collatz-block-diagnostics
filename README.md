@@ -174,6 +174,57 @@ was never reached.
 
 ---
 
+## Supplementary check: ESCAPE conditioning and the size of the actual–iid gap
+
+A small side check asks whether the finite-block `actual − iid` discrepancy is
+*larger* when the sample is selected by the ESCAPE condition. The comparison is
+deliberately light: `h = 2`, `depth = 4`, valuation categories `1 / 2 / 3+`, and
+`power = 24..28`. On the all-starting-values side, the fixed four-step actual
+distribution over the same finite layer is compared with the unconditional iid
+distribution; on the ESCAPE side, the original matched ESCAPE iid reference is used.
+
+| power | ESCAPE samples | TV_all | TV_escape mean | TV_escape range |
+|---:|---:|---:|---:|---:|
+| 25 | 328,301 | 0.000009060 | 0.003733770 | 0.003384409–0.004200860 |
+| 26 | 651,706 | 0.000004768 | 0.004884531 | 0.003822402–0.005456825 |
+| 27 | 1,308,571 | 0.000002265 | 0.003710716 | 0.003222819–0.004064692 |
+| 28 | 2,616,918 | 0.000001132 | 0.003758958 | 0.003336415–0.004132020 |
+
+The iid reference was rebuilt five times per power (`500,000` samples each, seeds
+`20260625..20260629`); the range column is only the minimum and maximum of those
+repeats, not five independent findings. The earlier `power = 24` check gave
+`TV_all = 0.000020027` and `TV_escape = 0.006276567`. Across every tested power and
+every iid repeat, `TV_escape > TV_all` held. Powers `25..28` are reported here only
+as a direction-stability check on that earlier `power = 24` observation.
+**Conditioning on ESCAPE is associated with an amplification of the actual–iid
+discrepancy. The cause and mechanism remain unidentified.** No new statistic,
+classification, or block length is introduced, and nothing here generalizes beyond
+`depth = 4`.
+
+### Conditions confirmed in the code
+
+Read off `collatz_escape_word_deficit.py` rather than from prose:
+
+- ESCAPE is the status assigned in `compute_status` when the odd-only Syracuse orbit
+  first exceeds `2^power`.
+- `trace_escape` records each `k = v2(3n+1)` and stops immediately after the update
+  that takes the odd value above `2^power`.
+- `iid_escape_sample` stops its iid walk at the first passage of the matched boundary
+  and reweights the stopped sample, so the iid side carries the same first-passage
+  condition.
+- Consequently the original ESCAPE actual–iid comparison is **not** a comparison of an
+  ESCAPE sample against an unconditional iid sample; both sides are boundary-conditioned.
+
+### Reproducibility note
+
+```bash
+python work/check_escape_tv_power_stability.py --powers 25 26 27 28 --h 2 --depth 4 \
+  --iid-samples 500000 --iid-repeats 5 --seed 20260625 \
+  --cache-dir work/status_cache --out-dir outputs
+```
+
+---
+
 ## Reproducing
 
 Requirements: Python 3.10+ and `numpy`.
