@@ -1,0 +1,3 @@
+﻿sample,sample_count,TV_distance,max_absolute_standardized_residual,max_residual_word,signed_standardized_residual_at_max,top10_absolute_deviation_sum
+ESCAPE,162938,0.00627656702350359,2.682536849504009,"2,2,3+,2",2.682536849504009,0.006769433942710362
+all_starting_values,1048576,2.002716064453125e-05,0.046966821831386216,"3+,3+,3+,2",0.046966821831386216,1.71661376953125e-05
